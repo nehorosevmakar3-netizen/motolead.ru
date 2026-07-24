@@ -80,7 +80,6 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* Скрываем стандартный скроллбар в слайдере */
         .hide-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -89,7 +88,6 @@
             scrollbar-width: none;
         }
 
-        /* Стилизация скроллбара для модалки */
         #policy-modal-content::-webkit-scrollbar {
             width: 8px;
         }
@@ -105,7 +103,6 @@
             background: #52525b; 
         }
 
-        /* Анимация обводки для блока "Наше мото-агентство" */
         .svg-border-rect {
             stroke-dasharray: 4000;
             stroke-dashoffset: 4000;
@@ -301,7 +298,6 @@
     <section class="py-24 bg-neutral-950 border-t border-white/5 relative overflow-hidden">
         <div class="absolute top-0 right-0 w-96 h-96 bg-brand/5 rounded-full blur-3xl pointer-events-none"></div>
 
-        <!-- Заголовок и стрелки внутри стандартного контейнера -->
         <div class="container mx-auto px-6 lg:px-12 relative z-10">
             <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                 <div class="max-w-3xl">
@@ -309,7 +305,6 @@
                     <p class="text-neutral-400 text-lg">Листайте карточки, чтобы посмотреть результаты в разных сегментах мотобизнеса.</p>
                 </div>
                 
-                <!-- Кнопки управления (только для ПК) -->
                 <div class="hidden md:flex gap-3 shrink-0">
                     <button onclick="scrollSlider('left')" class="w-14 h-14 rounded-full border border-neutral-700 bg-neutral-900 flex items-center justify-center hover:bg-brand hover:text-black hover:border-brand transition-all">
                         <i class="ph-bold ph-arrow-left text-2xl"></i>
@@ -321,13 +316,10 @@
             </div>
         </div>
 
-        <!-- Сам слайдер ВЫНЕСЕН за пределы контейнера, чтобы не было обрезаний! -->
         <div class="w-full relative z-10">
-            <!-- Отступы px-6 md:px-12 lg:px-24 обеспечивают красивый старт, но контейнер 100% ширины -->
             <div id="cases-slider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar pb-16 pt-4 w-full px-6 md:px-12 lg:px-24 xl:px-32">
                 
-                <!-- Кейс 1: CFMOTO -->
-                <div class="snap-center lg:snap-start shrink-0 w-[85vw] md:w-[600px] lg:w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-xl relative group hover:border-brand/30 transition-colors">
+                <div class="snap-start shrink-0 w-[85vw] max-w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-2xl relative group hover:border-brand/30 transition-colors">
                     <div class="flex items-center gap-4 mb-8 pb-6 border-b border-white/10">
                         <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center shrink-0">
                             <i class="ph-bold ph-storefront text-2xl text-white"></i>
@@ -359,8 +351,7 @@
                     </div>
                 </div>
 
-                <!-- Кейс 2: BRP -->
-                <div class="snap-center lg:snap-start shrink-0 w-[85vw] md:w-[600px] lg:w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-xl relative group hover:border-brand/30 transition-colors">
+                <div class="snap-start shrink-0 w-[85vw] max-w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-2xl relative group hover:border-brand/30 transition-colors">
                     <div class="flex items-center gap-4 mb-8 pb-6 border-b border-white/10">
                         <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center shrink-0">
                             <i class="ph-bold ph-crown text-2xl text-white"></i>
@@ -392,8 +383,7 @@
                     </div>
                 </div>
 
-                <!-- Кейс 3: Экипировка -->
-                <div class="snap-center lg:snap-start shrink-0 w-[85vw] md:w-[600px] lg:w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-xl relative group hover:border-brand/30 transition-colors">
+                <div class="snap-start shrink-0 w-[85vw] max-w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-2xl relative group hover:border-brand/30 transition-colors">
                     <div class="flex items-center gap-4 mb-8 pb-6 border-b border-white/10">
                         <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center shrink-0">
                             <i class="ph-bold ph-t-shirt text-2xl text-white"></i>
@@ -425,8 +415,7 @@
                     </div>
                 </div>
 
-                <!-- Кейс 4: Эндуро -->
-                <div class="snap-center lg:snap-start shrink-0 w-[85vw] md:w-[600px] lg:w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-xl relative group hover:border-brand/30 transition-colors">
+                <div class="snap-start shrink-0 w-[85vw] max-w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-2xl relative group hover:border-brand/30 transition-colors">
                     <div class="flex items-center gap-4 mb-8 pb-6 border-b border-white/10">
                         <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center shrink-0">
                             <i class="ph-bold ph-mountains text-2xl text-white"></i>
@@ -458,8 +447,7 @@
                     </div>
                 </div>
 
-                <!-- Кейс 5: Сеть салонов -->
-                <div class="snap-center lg:snap-start shrink-0 w-[85vw] md:w-[600px] lg:w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-xl relative group hover:border-brand/30 transition-colors">
+                <div class="snap-start shrink-0 w-[85vw] max-w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-2xl relative group hover:border-brand/30 transition-colors">
                     <div class="flex items-center gap-4 mb-8 pb-6 border-b border-white/10">
                         <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center shrink-0">
                             <i class="ph-bold ph-buildings text-2xl text-white"></i>
@@ -491,7 +479,6 @@
                     </div>
                 </div>
 
-                <!-- Пустой блок для отступа последней карточки от правого края -->
                 <div class="shrink-0 w-2 md:w-6 lg:w-12"></div>
             </div>
         </div>
@@ -595,7 +582,50 @@
         </div>
     </section>
 
-    <section class="py-24 bg-neutral-900 relative">
+    <!-- НОВЫЙ БЛОК: Инфраструктура агентства -->
+    <section class="py-24 bg-neutral-900 relative border-t border-white/5 overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full bg-grid opacity-10 pointer-events-none"></div>
+        <div class="absolute -left-40 top-20 w-96 h-96 bg-brand/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="container mx-auto px-6 lg:px-12 relative z-10">
+            <div class="max-w-4xl mx-auto text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-6">
+                    Надежный тыл: Кто стоит за MotoLead
+                </h2>
+                <p class="text-lg md:text-xl text-neutral-400 font-medium leading-relaxed text-balance">
+                    MotoLead — это не фрилансеры-одиночки. Это специализированное подразделение комплексного маркетингового агентства <a href="https://labcoppa.ru" target="_blank" class="text-brand font-bold hover:text-brand-hover transition-colors decoration-brand/50 underline-offset-4 hover:underline drop-shadow-[0_0_10px_rgba(222,255,154,0.2)]">Idea Lab by Coppa</a>. Мы объединили глубокое понимание мото-рынка с мощной корпоративной инфраструктурой.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <div class="glass-card p-8 rounded-3xl hover:-translate-y-2 hover-glow transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-2xl bg-neutral-800 border border-neutral-700 flex items-center justify-center mb-6 group-hover:border-brand/50 group-hover:bg-brand/10 transition-colors">
+                        <i class="ph-duotone ph-buildings text-3xl text-neutral-300 group-hover:text-brand transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Масштаб и система</h3>
+                    <p class="text-neutral-400 leading-relaxed text-sm">Мы перенесли стандарты работы крупного агентства в узкую мото-нишу. Надежность B2B-уровня.</p>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl hover:-translate-y-2 hover-glow transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-2xl bg-neutral-800 border border-neutral-700 flex items-center justify-center mb-6 group-hover:border-brand/50 group-hover:bg-brand/10 transition-colors">
+                        <i class="ph-duotone ph-users-three text-3xl text-neutral-300 group-hover:text-brand transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Сильная команда</h3>
+                    <p class="text-neutral-400 leading-relaxed text-sm">Отлаженные бизнес-процессы, слаженная работа десятка профильных специалистов и жесткий контроль качества.</p>
+                </div>
+
+                <div class="glass-card p-8 rounded-3xl hover:-translate-y-2 hover-glow transition-all duration-300 group">
+                    <div class="w-14 h-14 rounded-2xl bg-neutral-800 border border-neutral-700 flex items-center justify-center mb-6 group-hover:border-brand/50 group-hover:bg-brand/10 transition-colors">
+                        <i class="ph-duotone ph-chart-line-up text-3xl text-neutral-300 group-hover:text-brand transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3 text-white">Фокус на продажах</h3>
+                    <p class="text-neutral-400 leading-relaxed text-sm">Работу курирует опытный РОП, поэтому наш маркетинг всегда нацелен на реальную выручку в кассе, а не на красивые клики.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 bg-neutral-950 border-t border-white/5 relative">
         <div class="container mx-auto px-6 lg:px-12">
             <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-16 text-center text-balance">
                 4 шага до стабильного потока заявок
@@ -603,12 +633,9 @@
 
             <div class="max-w-4xl mx-auto relative">
                 <div id="roadmap-container" class="space-y-12 relative z-10">
-                    <!-- Линия на ПК -->
                     <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-px bg-neutral-800 top-[28px] bottom-[28px] -z-10"></div>
 
-                    <!-- Step 1 -->
                     <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center w-full relative" style="transition-delay: 100ms;">
-                        <!-- На телефоне цифра идет первой, текст второй за счет order-1 и order-2 -->
                         <div class="w-14 h-14 shrink-0 mx-auto order-1 md:order-2 flex items-center justify-center bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] z-20">
                             <span class="text-xl font-black text-brand">1</span>
                         </div>
@@ -619,7 +646,6 @@
                         <div class="w-full md:w-5/12 hidden md:block order-3"></div>
                     </div>
 
-                    <!-- Step 2 -->
                     <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center w-full relative" style="transition-delay: 300ms;">
                         <div class="w-full md:w-5/12 hidden md:block order-1"></div>
                         <div class="w-14 h-14 shrink-0 mx-auto order-1 md:order-2 flex items-center justify-center bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] z-20">
@@ -631,7 +657,6 @@
                         </div>
                     </div>
 
-                    <!-- Step 3 -->
                     <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center w-full relative" style="transition-delay: 500ms;">
                         <div class="w-14 h-14 shrink-0 mx-auto order-1 md:order-2 flex items-center justify-center bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] z-20">
                             <span class="text-xl font-black text-brand">3</span>
@@ -643,7 +668,6 @@
                         <div class="w-full md:w-5/12 hidden md:block order-3"></div>
                     </div>
 
-                    <!-- Step 4 -->
                     <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center w-full relative" style="transition-delay: 700ms;">
                         <div class="w-full md:w-5/12 hidden md:block order-1"></div>
                         <div class="w-14 h-14 shrink-0 mx-auto order-1 md:order-2 flex items-center justify-center bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] z-20">
@@ -659,10 +683,10 @@
         </div>
     </section>
 
-    <section class="py-16 bg-neutral-950 relative">
+    <section class="py-16 bg-neutral-900 border-t border-white/5 relative">
         <div class="container mx-auto px-6 lg:px-12">
             <div class="max-w-5xl mx-auto">
-                <div id="guarantee-block" class="bg-neutral-900 border-2 border-brand/50 rounded-[2.5rem] p-8 md:p-14 flex flex-col md:flex-row items-center gap-10 relative overflow-hidden shadow-[0_0_40px_rgba(222,255,154,0.15)]">
+                <div id="guarantee-block" class="bg-neutral-950 border-2 border-brand/50 rounded-[2.5rem] p-8 md:p-14 flex flex-col md:flex-row items-center gap-10 relative overflow-hidden shadow-[0_0_40px_rgba(222,255,154,0.15)]">
                     <div id="guarantee-shimmer" class="absolute inset-0 bg-gradient-to-r from-transparent via-brand/10 to-transparent -translate-x-full"></div>
                     
                     <div class="shrink-0 relative z-10">
@@ -685,7 +709,7 @@
         </div>
     </section>
 
-    <section id="cta" class="py-24 relative overflow-hidden bg-neutral-950">
+    <section id="cta" class="py-24 relative overflow-hidden bg-neutral-950 border-t border-white/5">
         <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl h-[600px] bg-brand/20 blur-[120px] rounded-full pointer-events-none"></div>
         <div class="absolute inset-0 bg-grid opacity-30 z-0 pointer-events-none"></div>
 
@@ -700,7 +724,7 @@
                     Хватит терять прибыль в несезон. Запишитесь на бесплатную консультацию: разберем ваш маркетинг, найдем точки роста и покажем кейсы.
                 </p>
                 
-                <form class="max-w-md mx-auto space-y-4 mb-4" onsubmit="event.preventDefault();">
+                <form class="max-w-md mx-auto space-y-4 mb-4" onsubmit="sendToTelegram(event)">
                     <input type="text" placeholder="Имя" class="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors" required>
                     <input type="tel" placeholder="Телефон" class="w-full bg-neutral-950 border border-neutral-700 rounded-xl px-5 py-4 text-white focus:outline-none focus:border-brand focus:ring-1 focus:ring-brand transition-colors" required>
                     <button type="submit" class="w-full flex items-center justify-center px-8 py-4 text-lg font-bold text-black bg-brand rounded-xl hover:bg-brand-hover hover:shadow-[0_0_20px_rgba(222,255,154,0.5)] transition-all duration-300">
@@ -752,10 +776,54 @@
     </div>
 
     <script>
+        async function sendToTelegram(event) {
+            event.preventDefault();
+            const form = event.target;
+            const name = form.querySelector('input[type="text"]').value;
+            const phone = form.querySelector('input[type="tel"]').value;
+            const btn = form.querySelector('button[type="submit"]');
+            const originalBtnText = btn.innerHTML;
+
+            const token = '8824563100:AAElOexJIoMgoBSrXcbzaRepmvTkEMnocNM';
+            const chatId = '6095087279';
+            const text = `🔥 Новая заявка (MotoLead)\n\n👤 Имя: ${name}\n📞 Телефон: ${phone}`;
+
+            btn.disabled = true;
+            btn.innerHTML = 'Отправка...';
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: chatId, text: text })
+                });
+
+                if (response.ok) {
+                    btn.innerHTML = 'Заявка успешно отправлена!';
+                    btn.classList.add('!bg-green-400', '!text-black');
+                    form.reset();
+                    setTimeout(() => {
+                        btn.disabled = false;
+                        btn.innerHTML = originalBtnText;
+                        btn.classList.remove('!bg-green-400', '!text-black');
+                    }, 4000);
+                } else {
+                    throw new Error('Ошибка');
+                }
+            } catch (error) {
+                btn.innerHTML = 'Ошибка отправки';
+                btn.classList.add('!bg-red-500', '!text-white');
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalBtnText;
+                    btn.classList.remove('!bg-red-500', '!text-white');
+                }, 3000);
+            }
+        }
+
         function scrollSlider(direction) {
             const slider = document.getElementById('cases-slider');
             const card = slider.querySelector('.shrink-0');
-            // Прибавляем gap-6 (24px) к ширине карточки
             const scrollAmount = card.offsetWidth + 24; 
             
             if (direction === 'left') {
