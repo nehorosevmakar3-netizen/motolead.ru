@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coppa Logistics | Доставка грузов из Китая</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    colors: {
+                        white: '#FFFFFF',
+                        black: '#050505',
+                        sapphire: '#0A192F',
+                        blue: '#2563EB',
+                        muted: 'rgba(150, 150, 150, 0.05)',
+                        adaptive: 'rgba(150, 150, 150, 0.15)',
+                    },
+                    textColor: {
+                        muted: 'var(--color-text-muted)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base styles & text visibility fix */
+        :root {
+            --color-text-muted: rgba(0, 0, 0, 0.65);
+        }
+        .dark {
+            --color-text-muted: rgba(255, 255, 255, 0.65);
+        }
+
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Interactive Cards Logic (Hover & Neon) */
+        .interactive-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            background-color: #FFFFFF;
+        }
+        .dark .interactive-card {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: #0A0A0A;
+        }
+        
+        .interactive-card:hover {
+            transform: translateY(-6px);
+            border-color: #2563EB;
+            box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.15);
+        }
+        .dark .interactive-card:hover {
+            box-shadow: 0 0 30px -5px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Input styling (Rounded 16px) */
+        .input-strict {
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            background-color: #FFFFFF;
+            color: #000000;
+            border-radius: 16px; 
+            transition: all 0.3s ease;
+        }
+        .dark .input-strict {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background-color: #111111;
+            color: #FFFFFF;
+        }
+        .input-strict:focus {
+            outline: none;
+            border-color: #2563EB;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Timeline Neon Logic */
+        .step-active .step-dot {
+            background-color: #2563EB;
+            border-color: #2563EB;
+            box-shadow: 0 0 15px #2563EB, 0 0 30px rgba(37, 99, 235, 0.6);
+        }
+        .step-active .line-segment {
+            background-color: #2563EB;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.8);
+        }
+        
+        /* Glassmorphism Safari Support */
+        .glass-panel {
+            -webkit-backdrop-filter: blur(24px);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-white text-black dark:bg-black dark:text-white min-h-screen flex flex-col pb-28 sm:pb-36 relative">
+
+    <!-- Top Header (Glassmorphism) -->
+    <header class="fixed w-full top-0 z-50 bg-white/60 dark:bg-black/60 glass-panel border-b border-black/5 dark:border-white/5 transition-all duration-300" id="header">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo (Text Only) -->
+            <a href="#" class="flex items-center group">
+                <span class="font-heading font-bold text-lg sm:text-xl tracking-tight text-black dark:text-white group-hover:text-blue transition-colors">Coppa Logistics</span>
+            </a>
+
+            <!-- Right Actions (Theme Only) -->
+            <div class="flex items-center gap-4 sm:gap-6">
+                <!-- Theme Toggle -->
+                <button id="theme-toggle" class="p-2 rounded-full border border-adaptive hover:border-blue dark:hover:border-blue transition-colors text-black dark:text-white group" aria-label="Toggle Dark Mode">
+                    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 group-hover:text-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 group-hover:text-blue transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Bottom Dock Navigation (Glassmorphism) -->
+    <div class="fixed bottom-6 w-full px-4 sm:px-6 flex justify-center pointer-events-none z-[100] gap-2 md:gap-4">
+        
+        <!-- Main Pill Nav -->
+        <nav class="pointer-events-auto px-2 py-2 bg-white/70 dark:bg-[#111111]/70 glass-panel border border-black/10 dark:border-white/10 rounded-[2.5rem] shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)] flex items-center gap-1 sm:gap-2">
+            
+            <!-- Услуги -->
+            <a href="#services" class="dock-item flex flex-col items-center justify-center w-[72px] h-[64px] sm:w-[84px] sm:h-[72px] gap-1.5 rounded-[1.8rem] hover:bg-black/5 dark:hover:bg-white/10 transition-all duration-300 group">
+                <svg class="w-6 h-6 text-black/70 dark:text-white/70 group-hover:text-blue transition-colors dock-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                </svg>
+                <span class="text-[10px] sm:text-[11px] font-semibold text-black/70 dark:text-white/70 group-hover:text-blue transition-colors tracking-wide dock-text">Услуги</span>
+            </a>
+            
+            <!-- Гарантии -->
+            <a href="#benefits" class="dock-item flex flex-col items-center justify-center w-[72px] h-[64px] sm:w-[84px] sm:h-[72px] gap-1.5 rounded-[1.8rem] hover:bg-black/5 dark:hover:bg-white/10 transition-all duration-300 group">
+                <svg class="w-6 h-6 text-black/70 dark:text-white/70 group-hover:text-blue transition-colors dock-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                </svg>
+                <span class="text-[10px] sm:text-[11px] font-semibold text-black/70 dark:text-white/70 group-hover:text-blue transition-colors tracking-wide dock-text">Гарантии</span>
+            </a>
+            
+            <!-- Процесс -->
+            <a href="#process" class="dock-item flex flex-col items-center justify-center w-[72px] h-[64px] sm:w-[84px] sm:h-[72px] gap-1.5 rounded-[1.8rem] hover:bg-black/5 dark:hover:bg-white/10 transition-all duration-300 group">
+                <svg class="w-6 h-6 text-black/70 dark:text-white/70 group-hover:text-blue transition-colors dock-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
+                </svg>
+                <span class="text-[10px] sm:text-[11px] font-semibold text-black/70 dark:text-white/70 group-hover:text-blue transition-colors tracking-wide dock-text">Процесс</span>
+            </a>
+            
+            <!-- Тарифы -->
+            <a href="#calculator" class="dock-item flex flex-col items-center justify-center w-[72px] h-[64px] sm:w-[84px] sm:h-[72px] gap-1.5 rounded-[1.8rem] hover:bg-black/5 dark:hover:bg-white/10 transition-all duration-300 group">
+                <svg class="w-6 h-6 text-black/70 dark:text-white/70 group-hover:text-blue transition-colors dock-icon" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25z" />
+                </svg>
+                <span class="text-[10px] sm:text-[11px] font-semibold text-black/70 dark:text-white/70 group-hover:text-blue transition-colors tracking-wide dock-text">Тарифы</span>
+            </a>
+
+        </nav>
+
+        <!-- Right Floating Button (Track / Close Toggle) - Large Size, No Text -->
+        <button onclick="toggleTracking()" id="fab-btn" class="pointer-events-auto flex items-center justify-center w-[80px] h-[80px] sm:w-[88px] sm:h-[88px] bg-white/70 dark:bg-[#111111]/70 glass-panel border border-black/10 dark:border-white/10 rounded-full shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.6)] hover:-translate-y-1 transition-transform duration-300 group">
+            <div class="relative w-12 h-12 sm:w-14 sm:h-14 bg-blue rounded-full flex items-center justify-center text-white shadow-lg shadow-blue/30 group-hover:scale-105 transition-transform duration-300 flex-shrink-0">
+                <!-- Search/Track Icon -->
+                <svg id="fab-icon-search" class="absolute w-6 h-6 transition-all duration-300 transform scale-100 opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+                <!-- Close Icon -->
+                <svg id="fab-icon-close" class="absolute w-6 h-6 transition-all duration-300 transform scale-50 opacity-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+        </button>
+        
+    </div>
+
+    <!-- MAIN APP VIEW (Landing Page) -->
+    <div id="main-view" class="transition-opacity duration-300">
+        <section id="hero" class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden flex-grow flex items-center bg-white dark:bg-black transition-colors duration-300">
+            <div class="absolute top-0 right-0 -mr-20 -mt-20 w-[600px] h-[600px] rounded-full bg-blue/5 blur-[120px] pointer-events-none z-0"></div>
+            <div class="absolute bottom-0 left-0 -ml-20 -mb-20 w-[400px] h-[400px] rounded-full bg-blue/5 blur-[100px] pointer-events-none z-0"></div>
+
+            <div class="max-w-7xl mx-auto px-6 lg:px-8 relative z-10 w-full">
+                <div class="max-w-4xl">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 border border-adaptive bg-muted rounded-full mb-8">
+                        <span class="w-2 h-2 rounded-full bg-blue"></span>
+                        <span class="text-xs font-semibold uppercase tracking-wider text-black dark:text-white">B2B & B2C Логистика</span>
+                    </div>
+                    
+                    <h1 class="font-heading font-bold text-4xl md:text-6xl lg:text-[4.5rem] leading-[1.1] tracking-tight text-black dark:text-white">
+                        Безупречная доставка <br/>из Китая. <span class="text-blue">Для вашего бизнеса и для вас.</span>
+                    </h1>
+                    
+                    <p class="mt-8 text-lg md:text-xl text-muted max-w-2xl leading-relaxed font-light">
+                        Фиксируем цену и сроки в день заявки. Возим всё: от одной коробки до целых контейнеров со 100% финансовой гарантией. Никакой суеты и «завтраков».
+                    </p>
+                    
+                    <div class="mt-12 flex flex-col sm:flex-row gap-5">
+                        <a href="#calculator" class="inline-flex justify-center items-center bg-blue text-white px-10 py-5 text-base font-medium hover:bg-blue/90 transition-colors duration-300 rounded-full shadow-lg shadow-blue/20">
+                            Рассчитать доставку
+                        </a>
+                        <button onclick="toggleTracking()" class="inline-flex justify-center items-center border border-black/10 dark:border-white/20 text-black dark:text-white px-10 py-5 text-base font-medium hover:border-blue dark:hover:border-blue hover:text-blue transition-all duration-300 rounded-full bg-transparent">
+                            Отследить заказ
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="benefits" class="py-24 lg:py-32 bg-muted relative z-10 transition-colors duration-300 border-t border-adaptive">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="mb-16 md:mb-20">
+                    <h2 class="font-heading font-bold text-3xl md:text-5xl tracking-tight text-black dark:text-white max-w-4xl">Ваш груз застрахован, а риски — на нас.</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
+                    <!-- Benefit 1 -->
+                    <div class="interactive-card p-8 md:p-10 rounded-3xl flex flex-col h-full group">
+                        <div class="w-16 h-16 mb-8 flex items-center justify-center border border-adaptive bg-muted rounded-2xl group-hover:border-blue group-hover:text-blue transition-colors duration-300">
+                            <svg class="w-7 h-7 text-black dark:text-white group-hover:text-blue transition-colors flex-shrink-0" width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl md:text-2xl text-black dark:text-white mb-4">100% финансовая защита</h3>
+                        <p class="text-muted leading-relaxed text-sm md:text-base">
+                            Мы несем полную материальную ответственность за ваш товар. В случае утери или повреждения в пути мы компенсируем 100% стоимости без бюрократии и долгих разбирательств.
+                        </p>
+                    </div>
+
+                    <!-- Benefit 2 -->
+                    <div class="interactive-card p-8 md:p-10 rounded-3xl flex flex-col h-full group">
+                        <div class="w-16 h-16 mb-8 flex items-center justify-center border border-adaptive bg-muted rounded-2xl group-hover:border-blue group-hover:text-blue transition-colors duration-300">
+                            <svg class="w-7 h-7 text-black dark:text-white group-hover:text-blue transition-colors flex-shrink-0" width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl md:text-2xl text-black dark:text-white mb-4">Фиксированная цена</h3>
+                        <p class="text-muted leading-relaxed text-sm md:text-base">
+                            Забудьте о скрытых комиссиях на выдаче. Стоимость, которую мы назвали при расчете, закрепляется в договоре и не меняется ни из-за курса, ни из-за «сложностей на таможне».
+                        </p>
+                    </div>
+
+                    <!-- Benefit 3 -->
+                    <div class="interactive-card p-8 md:p-10 rounded-3xl flex flex-col h-full group">
+                        <div class="w-16 h-16 mb-8 flex items-center justify-center border border-adaptive bg-muted rounded-2xl group-hover:border-blue group-hover:text-blue transition-colors duration-300">
+                            <svg class="w-7 h-7 text-black dark:text-white group-hover:text-blue transition-colors flex-shrink-0" width="28" height="28" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl md:text-2xl text-black dark:text-white mb-4">Соблюдение сроков</h3>
+                        <p class="text-muted leading-relaxed text-sm md:text-base">
+                            Никаких «завтраков». Мы называем реальное транзитное время и выстраиваем логистику так, чтобы груз прибыл вовремя. Ваше производство или продажи не встанут на паузу.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="services" class="py-24 lg:py-32 bg-white dark:bg-black relative z-10 transition-colors duration-300 border-t border-adaptive">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="mb-16 md:mb-20 flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+                    <div class="max-w-3xl">
+                        <h2 class="font-heading font-bold text-3xl md:text-5xl leading-[1.2] tracking-tight text-black dark:text-white mb-6">
+                            Без границ и лишних забот. <br/><span class="text-blue">Ваш груз под полным контролем.</span>
+                        </h2>
+                        <p class="text-lg text-muted font-light max-w-2xl">
+                            Чтобы даже самый хрупкий товар (от электроники до стеклянных витрин) доехал в идеальном состоянии, мы обеспечиваем комплексную защиту и берем всю логистику на себя.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bento Grid (Responsive) -->
+                <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+                    <!-- Card 1: Доставка (Широкая карточка на всех экранах) -->
+                    <div class="interactive-card p-6 sm:p-8 md:p-10 rounded-3xl col-span-2 group flex flex-col justify-center relative overflow-hidden">
+                        <div class="absolute right-0 bottom-0 opacity-[0.03] dark:opacity-5 pointer-events-none transform translate-x-1/4 translate-y-1/4 text-blue transition-transform duration-700 group-hover:scale-110">
+                            <svg width="400" height="400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.5">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>
+                            </svg>
+                        </div>
+                        <div class="w-12 h-12 sm:w-16 sm:h-16 mb-6 sm:mb-8 flex items-center justify-center border border-adaptive bg-muted rounded-2xl group-hover:border-blue group-hover:text-blue transition-all duration-300 z-10">
+                            <svg class="w-6 h-6 sm:w-7 sm:h-7 text-black dark:text-white group-hover:text-blue transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="font-heading font-bold text-xl sm:text-2xl md:text-3xl text-black dark:text-white mb-3 sm:mb-4 z-10">Доставка в любую точку мира</h3>
+                        <p class="text-muted leading-relaxed text-sm sm:text-base max-w-xl z-10">
+                            Мы не ограничиваемся одним направлением. Выкупаем и доставляем грузы из Китая по всему земному шару. Подберем оптимальный логистический маршрут для вашей страны, чтобы сэкономить время и деньги.
+                        </p>
+                    </div>
+
+                    <!-- Card 2: Проверка на брак (Занимает 1 колонку на мобильных) -->
+                    <div class="interactive-card p-6 sm:p-8 rounded-3xl col-span-1 group flex flex-col">
+                        <div class="w-10 h-10 sm:w-14 sm:h-14 mb-4 sm:mb-6 flex items-center justify-center border border-adaptive bg-muted rounded-2xl group-hover:border-blue group-hover:text-blue transition-all duration-300">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-black dark:text-white group-hover:text-blue transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+                            </svg>
+                        </div>
+                        <h4 class="font-heading font-bold text-sm sm:text-xl text-black dark:text-white mb-2 sm:mb-3">Проверка на брак</h4>
+                        <p class="text-muted text-[11px] sm:text-sm leading-relaxed hidden sm:block">Вскроем, пересчитаем, проверим целостность и сделаем фотоотчет прямо на нашем складе в Китае.</p>
+                    </div>
+
+                    <!-- Card 3: Обрешетка (Занимает 1 колонку на мобильных) -->
+                    <div class="interactive-card p-6 sm:p-8 rounded-3xl col-span-1 group flex flex-col">
+                        <div class="w-10 h-10 sm:w-14 sm:h-14 mb-4 sm:mb-6 flex items-center justify-center border border-adaptive bg-muted rounded-2xl group-hover:border-blue group-hover:text-blue transition-all duration-300">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-black dark:text-white group-hover:text-blue transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9" />
+                            </svg>
+                        </div>
+                        <h4 class="font-heading font-bold text-sm sm:text-xl text-black dark:text-white mb-2 sm:mb-3">Деревянная обрешетка</h4>
+                        <p class="text-muted text-[11px] sm:text-sm leading-relaxed hidden sm:block">Жесткий каркас и паллетирование. Идеально для безопасной транспортировки крупногабаритных грузов.</p>
+                    </div>
+
+                    <!-- Card 4: Упаковка (Занимает 1 колонку на мобильных, на планшетах тоже 1) -->
+                    <div class="interactive-card p-6 sm:p-8 rounded-3xl col-span-1 lg:col-span-1 group flex flex-col">
+                        <div class="w-10 h-10 sm:w-14 sm:h-14 mb-4 sm:mb-6 flex items-center justify-center border border-adaptive bg-muted rounded-2xl group-hover:border-blue group-hover:text-blue transition-all duration-300">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-black dark:text-white group-hover:text-blue transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                            </svg>
+                        </div>
+                        <h4 class="font-heading font-bold text-sm sm:text-xl text-black dark:text-white mb-2 sm:mb-3">Усиленная упаковка</h4>
+                        <p class="text-muted text-[11px] sm:text-sm leading-relaxed hidden sm:block">Плотный картон, защитные уголки, пузырчатая пленка и влагозащитный скотч для каждого заказа.</p>
+                    </div>
+
+                    <!-- Card 5: Консолидация (Занимает 1 колонку на мобильных, на больших экранах тоже 1) -->
+                    <div class="interactive-card p-6 sm:p-8 rounded-3xl col-span-1 lg:col-span-1 group flex flex-col">
+                        <div class="w-10 h-10 sm:w-14 sm:h-14 mb-4 sm:mb-6 flex items-center justify-center border border-adaptive bg-muted rounded-2xl group-hover:border-blue group-hover:text-blue transition-all duration-300">
+                            <svg class="w-5 h-5 sm:w-6 sm:h-6 text-black dark:text-white group-hover:text-blue transition-colors flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5" />
+                            </svg>
+                        </div>
+                        <h4 class="font-heading font-bold text-sm sm:text-xl text-black dark:text-white mb-2 sm:mb-3">Консолидация</h4>
+                        <p class="text-muted text-[11px] sm:text-sm leading-relaxed hidden sm:block">Надежно объединим несколько небольших заказов от разных китайских поставщиков в одну общую партию.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ПРОЗРАЧНЫЙ ПРОЦЕСС -->
+        <section id="process" class="pt-24 pb-8 lg:pt-32 lg:pb-12 bg-muted relative z-10 transition-colors duration-300 border-t border-adaptive overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="mb-20 text-center max-w-3xl mx-auto">
+                    <h2 class="font-heading font-bold text-3xl md:text-5xl text-black dark:text-white tracking-tight mb-6">Прозрачный процесс</h2>
+                    <p class="text-lg text-muted font-light">Без лишних посредников. От вашей заявки до получения груза в вашем городе.</p>
+                </div>
+
+                <div class="relative max-w-4xl mx-auto">
+                    <div class="space-y-0 relative">
+                        <!-- Step 1 -->
+                        <div class="relative flex flex-col md:flex-row items-center justify-between w-full step-container py-12 md:py-16">
+                            <div class="absolute left-4 md:left-1/2 top-1/2 w-px h-full bg-adaptive transform -translate-x-1/2 line-segment transition-colors duration-700 z-0"></div>
+                            <div class="md:w-5/12 pl-20 md:pl-0 md:text-right md:pr-12 w-full z-10">
+                                <h4 class="font-heading font-bold text-xl text-black dark:text-white mb-2">Заявка и расчет</h4>
+                                <p class="text-muted text-sm leading-relaxed">Получаем ваши данные, подбираем оптимальный маршрут и фиксируем стоимость в день обращения.</p>
+                            </div>
+                            <div class="absolute left-4 md:left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-4 border-white dark:border-black bg-muted step-dot transition-all duration-500 z-20"></div>
+                            <div class="md:w-5/12 pl-20 md:pl-12 hidden md:block w-full">
+                                <span class="text-6xl font-heading font-bold text-black/20 dark:text-white/10 select-none">01</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="relative flex flex-col md:flex-row items-center justify-between w-full step-container py-12 md:py-16">
+                            <div class="absolute left-4 md:left-1/2 top-1/2 w-px h-full bg-adaptive transform -translate-x-1/2 line-segment transition-colors duration-700 z-0"></div>
+                            <div class="md:w-5/12 pl-20 md:pl-0 md:text-right md:pr-12 hidden md:block w-full">
+                                <span class="text-6xl font-heading font-bold text-black/20 dark:text-white/10 select-none">02</span>
+                            </div>
+                            <div class="absolute left-4 md:left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-4 border-white dark:border-black bg-muted step-dot transition-all duration-500 z-20"></div>
+                            <div class="md:w-5/12 pl-20 md:pl-12 w-full z-10">
+                                <h4 class="font-heading font-bold text-xl text-black dark:text-white mb-2">Склад в Китае</h4>
+                                <p class="text-muted text-sm leading-relaxed">Принимаем груз на нашем складе (Гуанчжоу/Иу). Проверяем, консолидируем и делаем надежную обрешетку.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative flex flex-col md:flex-row items-center justify-between w-full step-container py-12 md:py-16">
+                            <div class="absolute left-4 md:left-1/2 top-1/2 w-px h-full bg-adaptive transform -translate-x-1/2 line-segment transition-colors duration-700 z-0"></div>
+                            <div class="md:w-5/12 pl-20 md:pl-0 md:text-right md:pr-12 w-full z-10">
+                                <h4 class="font-heading font-bold text-xl text-black dark:text-white mb-2">Таможня и Вылет</h4>
+                                <p class="text-muted text-sm leading-relaxed">Оформляем все необходимые экспортные документы и отправляем груз ближайшим рейсом (авиа или авто).</p>
+                            </div>
+                            <div class="absolute left-4 md:left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-4 border-white dark:border-black bg-muted step-dot transition-all duration-500 z-20"></div>
+                            <div class="md:w-5/12 pl-20 md:pl-12 hidden md:block w-full">
+                                <span class="text-6xl font-heading font-bold text-black/20 dark:text-white/10 select-none">03</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="relative flex flex-col md:flex-row items-center justify-between w-full step-container py-12 md:py-16">
+                            <div class="md:w-5/12 pl-20 md:pl-0 md:text-right md:pr-12 hidden md:block w-full">
+                                <span class="text-6xl font-heading font-bold text-black/20 dark:text-white/10 select-none">04</span>
+                            </div>
+                            <div class="absolute left-4 md:left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full border-4 border-white dark:border-black bg-muted step-dot transition-all duration-500 z-20"></div>
+                            <div class="md:w-5/12 pl-20 md:pl-12 w-full z-10">
+                                <h4 class="font-heading font-bold text-xl text-black dark:text-white mb-2">Выдача груза</h4>
+                                <p class="text-muted text-sm leading-relaxed">Груз прибывает в ваш город. Вы оплачиваете доставку только по факту готовности к выдаче.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- СЛУЖБА ПОДДЕРЖКИ (ЧАТ) -->
+        <section id="support" class="py-24 lg:py-32 bg-white dark:bg-black relative z-10 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                    
+                    <!-- Left: Text & Button -->
+                    <div>
+                        <h2 class="font-heading font-bold text-4xl md:text-5xl text-black dark:text-white tracking-tight mb-6">Служба поддержки</h2>
+                        <p class="text-lg text-muted font-light mb-8 max-w-lg leading-relaxed">
+                            Никаких ботов и скриптов. Только живые люди, которые понимают нюансы логистики, ВЭД и таможенного оформления. Мы всегда на связи и готовы решить любой ваш вопрос.
+                        </p>
+                        <a href="https://t.me/Coppa_logistics" target="_blank" rel="noopener noreferrer" class="inline-flex justify-center items-center bg-blue text-white px-8 py-4 text-base font-medium hover:bg-blue/90 transition-colors duration-300 rounded-full shadow-lg shadow-blue/20">
+                            Написать менеджеру
+                        </a>
+                    </div>
+
+                    <!-- Right: Chat Interface -->
+                    <div id="chat-container" class="bg-[#E5E7EB] dark:bg-[#1A1A1A] rounded-[2rem] p-6 shadow-xl relative overflow-hidden">
+                        
+                        <!-- Header Chat -->
+                        <div class="flex items-center gap-4 border-b border-black/10 dark:border-white/10 pb-4 mb-6">
+                            <div class="relative w-12 h-12 flex-shrink-0">
+                                <!-- Аватарка менеджера -->
+                                <img src="https://i.ibb.co/gbRcdK1D/image.png" alt="Менеджер Coppa Logistics" class="w-full h-full rounded-full object-cover shadow-sm">
+                                <!-- Зеленый кружок статуса -->
+                                <div class="absolute bottom-0 right-0 w-3.5 h-3.5 bg-green-500 border-2 border-[#E5E7EB] dark:border-[#1A1A1A] rounded-full"></div>
+                            </div>
+                            <div>
+                                <h4 class="font-heading font-bold text-black dark:text-white text-base leading-tight">Менеджер Coppa Logistics</h4>
+                                <p class="text-[10px] text-muted font-semibold uppercase tracking-wider mt-0.5">В сети</p>
+                            </div>
+                        </div>
+
+                        <!-- Messages Area -->
+                        <div class="flex flex-col gap-4">
+                            <!-- Client Message (Right) -->
+                            <div id="msg-1" class="flex justify-end opacity-0 transform translate-y-4 transition-all duration-500 ease-out">
+                                <div class="bg-blue text-white rounded-2xl rounded-tr-sm px-5 py-4 max-w-[85%] md:max-w-[80%] shadow-sm relative">
+                                    <p class="text-sm leading-relaxed mb-4">Здравствуйте! Хочу привезти партию мотоциклов из Китая под заказ. Как быстро сможете рассчитать стоимость доставки и таможенного оформления?</p>
+                                    <span class="absolute bottom-1.5 right-3 text-[10px] text-white/70">11:04</span>
+                                </div>
+                            </div>
+
+                            <!-- Typing Indicator -->
+                            <div id="msg-typing" class="flex justify-start hidden opacity-0 transition-opacity duration-300">
+                                <div class="bg-white dark:bg-[#2A2A2A] border border-transparent dark:border-white/5 rounded-2xl rounded-tl-sm px-5 py-4 flex gap-1.5 items-center shadow-sm">
+                                    <div class="w-2 h-2 rounded-full bg-blue/60 animate-bounce" style="animation-delay: 0s"></div>
+                                    <div class="w-2 h-2 rounded-full bg-blue/60 animate-bounce" style="animation-delay: 0.15s"></div>
+                                    <div class="w-2 h-2 rounded-full bg-blue/60 animate-bounce" style="animation-delay: 0.3s"></div>
+                                </div>
+                            </div>
+
+                            <!-- Manager Message (Left) -->
+                            <div id="msg-2" class="flex justify-start hidden opacity-0 transform translate-y-4 transition-all duration-500 ease-out">
+                                <div class="bg-white dark:bg-[#2A2A2A] border border-transparent dark:border-white/5 text-black dark:text-white rounded-2xl rounded-tl-sm px-5 py-4 max-w-[85%] md:max-w-[80%] shadow-sm relative">
+                                    <p class="text-sm leading-relaxed mb-4">Добрый день! Я на связи. Пришлите габариты, вес и стоимость груза — я сделаю точный расчет со всеми расходами в течение 10 минут. Мы полностью берем на себя выкуп и логистику.</p>
+                                    <span class="absolute bottom-1.5 left-3 text-[10px] text-muted">11:05</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- КАЛЬКУЛЯТОР -->
+        <section id="calculator" class="py-24 lg:py-32 bg-white dark:bg-black relative z-10 transition-colors duration-300 border-t border-adaptive">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    
+                    <div>
+                        <h2 class="font-heading font-bold text-3xl md:text-5xl text-black dark:text-white tracking-tight mb-6">Оставьте заявку сейчас.</h2>
+                        <p class="text-lg text-muted font-light mb-8 max-w-lg">
+                            Мы подготовим точный расчет стоимости и зафиксируем для вас лучшие условия на первую отправку. Без скрытых комиссий и сюрпризов.
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 rounded-full bg-blue/10 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5 text-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="square" stroke-linejoin="miter" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <p class="text-sm font-medium text-black dark:text-white">Отвечаем в течение 15 минут <br/><span class="text-muted font-light">в рабочее время</span></p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-[#0A0A0A] p-8 md:p-12 shadow-2xl rounded-3xl border border-adaptive relative z-20">
+                        <form onsubmit="handleFormSubmit(event)" class="flex flex-col gap-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="font-heading font-bold text-2xl text-black dark:text-white">Детали груза</h3>
+                            </div>
+                            
+                            <!-- Inputs -->
+                            <div class="grid grid-cols-1 gap-5">
+                                <div>
+                                    <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-2">Что везем?</label>
+                                    <input type="text" placeholder="Например: Станки / Кроссовки" required class="w-full input-strict px-4 py-3">
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-2">Вес (кг) <span class="normal-case tracking-normal font-normal opacity-70">(необязательно)</span></label>
+                                    <input type="number" min="1" placeholder="0" class="w-full input-strict px-4 py-3">
+                                </div>
+
+                                <div>
+                                    <label class="block text-xs font-semibold text-muted uppercase tracking-wider mb-2">Контактный телефон или Telegram</label>
+                                    <input type="text" placeholder="+7 (___) ___-__-__" required class="w-full input-strict px-4 py-3">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full mt-4 bg-blue text-white px-8 py-5 font-medium hover:bg-blue/90 transition-colors duration-300 rounded-full hover:-translate-y-1 transform shadow-lg shadow-blue/20">
+                                Получить расчет
+                            </button>
+                            
+                            <p class="text-xs text-center text-muted mt-2">
+                                Нажимая на кнопку, вы соглашаетесь с политикой конфиденциальности.
+                            </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer class="bg-muted border-t border-adaptive pt-16 pb-12 transition-colors duration-300">
+            <div class="max-w-7xl mx-auto px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+                    <div class="md:col-span-2">
+                        <a href="#" class="flex items-center group mb-6">
+                            <span class="font-heading font-bold text-xl tracking-tight text-black dark:text-white group-hover:text-blue transition-colors">Coppa Logistics</span>
+                        </a>
+                        <p class="text-sm text-muted max-w-sm leading-relaxed mb-6">
+                            Строгая, предсказуемая и надежная логистика из Китая. Фиксируем цены, соблюдаем сроки, несем 100% ответственность за груз.
+                        </p>
+                    </div>
+                    <div>
+                        <h5 class="font-heading font-semibold text-sm uppercase tracking-wider mb-6 text-black/50 dark:text-white/50">Контакты</h5>
+                        <ul class="flex flex-col gap-4">
+                            <li><a href="mailto:hello@coppa.logistics" class="text-sm font-medium text-black dark:text-white hover:text-blue transition-colors">hello@coppa.logistics</a></li>
+                            <li class="flex items-center gap-4 mt-2">
+                                <a href="https://t.me/Coppa_logistics" target="_blank" class="text-muted hover:text-blue transition-colors">Telegram</a>
+                                <a href="#" class="text-muted hover:text-blue transition-colors">WhatsApp</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h5 class="font-heading font-semibold text-sm uppercase tracking-wider mb-6 text-black/50 dark:text-white/50">Реквизиты</h5>
+                        <ul class="flex flex-col gap-2 text-xs font-light text-muted">
+                            <li>ООО "КОППА ЛОГИСТИКС"</li>
+                            <li>ИНН: 7700000000</li>
+                            <li>КПП: 770001001</li>
+                            <li>ОГРН: 1234567890123</li>
+                            <li>Москва, Пресненская наб., 12</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="pt-8 border-t border-adaptive flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted font-light">
+                    <p>&copy; 2024 Coppa Logistics. Все права защищены.</p>
+                    <div class="flex gap-6">
+                        <button onclick="openModal('privacy-modal')" class="hover:text-black dark:hover:text-white transition-colors text-left">Политика конфиденциальности</button>
+                        <button onclick="openModal('offer-modal')" class="hover:text-black dark:hover:text-white transition-colors text-left">Договор оферты</button>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- TRACKING APP VIEW (Hidden by default) -->
+    <div id="tracking-view" class="hidden min-h-screen pt-32 pb-32 flex-col bg-white dark:bg-black transition-opacity duration-300">
+        <div class="max-w-3xl mx-auto px-6 w-full flex flex-col items-center mt-12 md:mt-24">
+            <h2 class="font-heading font-bold text-3xl md:text-5xl text-black dark:text-white mb-4 text-center">Отследить груз</h2>
+            <p class="text-muted text-center mb-10 max-w-md">Введите номер накладной или трек-номер вашего заказа для получения актуальной информации о местоположении.</p>
+            
+            <form onsubmit="handleTrackSubmit(event)" class="w-full relative flex items-center">
+                <input type="text" id="track-input" placeholder="Например: CP-123456789" required class="w-full input-strict px-6 py-4 md:py-5 text-base md:text-lg pr-[120px] shadow-lg shadow-black/5 dark:shadow-white/5 uppercase">
+                <button type="submit" class="absolute right-2 top-2 bottom-2 bg-blue text-white px-6 rounded-[12px] font-medium hover:bg-blue/90 transition-colors flex items-center justify-center min-w-[100px]">
+                    Найти
+                </button>
+            </form>
+
+            <!-- Tracking Result (Shows after submit) -->
+            <div id="track-result" class="w-full mt-12 hidden opacity-0 transition-opacity duration-500">
+                <div class="interactive-card p-6 md:p-10 rounded-3xl w-full text-left">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4 border-b border-adaptive pb-6">
+                        <div>
+                            <p class="text-xs text-muted uppercase tracking-wider font-semibold mb-1">Груз</p>
+                            <h4 id="track-number-display" class="font-heading font-bold text-2xl text-black dark:text-white">CP-123456</h4>
+                        </div>
+                        <div class="px-4 py-2 bg-blue/10 rounded-xl border border-blue/20">
+                            <p class="text-blue font-semibold text-sm">В пути (Транзитный пункт)</p>
+                        </div>
+                    </div>
+
+                    <!-- Status Timeline -->
+                    <div class="relative pl-6 space-y-8 border-l border-adaptive ml-2">
+                        
+                        <!-- Completed step -->
+                        <div class="relative">
+                            <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-blue border-4 border-white dark:border-[#0a0a0a] shadow-[0_0_10px_rgba(37,99,235,0.5)]"></div>
+                            <p class="text-sm font-semibold text-black dark:text-white mb-1">Принят на складе (Гуанчжоу)</p>
+                            <p class="text-xs text-muted">12 Ноября, 14:30</p>
+                        </div>
+                        
+                        <!-- Completed step -->
+                        <div class="relative">
+                            <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-blue border-4 border-white dark:border-[#0a0a0a] shadow-[0_0_10px_rgba(37,99,235,0.5)]"></div>
+                            <p class="text-sm font-semibold text-black dark:text-white mb-1">Таможенное оформление (Экспорт)</p>
+                            <p class="text-xs text-muted">14 Ноября, 09:15</p>
+                        </div>
+                        
+                        <!-- Current step -->
+                        <div class="relative">
+                            <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-blue border-4 border-white dark:border-[#0a0a0a] shadow-[0_0_15px_#2563EB] animate-pulse"></div>
+                            <p class="text-sm font-semibold text-blue mb-1">В пути (Международная транзитная зона)</p>
+                            <p class="text-xs text-muted">Ориентировочное прибытие в РФ: 18 Ноября</p>
+                        </div>
+                        
+                        <!-- Future step -->
+                        <div class="relative">
+                            <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-muted border-4 border-white dark:border-[#0a0a0a]"></div>
+                            <p class="text-sm font-semibold text-muted mb-1">Таможенное оформление (Импорт)</p>
+                            <p class="text-xs text-muted">Ожидается</p>
+                        </div>
+
+                        <!-- Future step -->
+                        <div class="relative">
+                            <div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-muted border-4 border-white dark:border-[#0a0a0a]"></div>
+                            <p class="text-sm font-semibold text-muted mb-1">Готов к выдаче</p>
+                            <p class="text-xs text-muted">Ожидается</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals (Privacy & Offer) -->
+    <div id="privacy-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/50 backdrop-blur-md p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-black p-8 md:p-10 rounded-3xl border border-adaptive shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-y-auto overscroll-contain relative transform scale-95 transition-transform duration-300 text-left" data-lenis-prevent>
+            <button onclick="closeModal('privacy-modal')" class="absolute top-6 right-6 p-2 text-muted hover:text-black dark:hover:text-white hover:bg-muted rounded-full transition-colors z-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="font-heading font-bold text-2xl md:text-3xl text-black dark:text-white mb-6 pr-10">Политика конфиденциальности</h3>
+            <div class="text-sm text-muted space-y-4 font-light leading-relaxed">
+                <p><strong>1. Общие положения</strong><br>Настоящая политика конфиденциальности устанавливает порядок обработки и защиты персональных данных пользователей, которые могут быть получены ООО "КОППА ЛОГИСТИКС" при использовании сайта.</p>
+                <p><strong>2. Сбор информации</strong><br>Мы собираем информацию, которую вы добровольно предоставляете при заполнении форм обратной связи: имя, номер телефона, данные о грузе. Эти данные необходимы исключительно для расчета стоимости и связи с вами.</p>
+                <p><strong>3. Использование данных</strong><br>Ваши данные используются для:<br>- Предоставления логистических услуг;<br>- Связи с вами для обсуждения деталей заказа;<br>- Улучшения качества обслуживания.</p>
+                <p><strong>4. Защита данных</strong><br>Мы принимаем все необходимые технические и организационные меры для защиты вашей информации от неправомерного доступа, изменения, раскрытия или уничтожения.</p>
+                <p><strong>5. Передача третьим лицам</strong><br>Мы не передаем ваши персональные данные третьим лицам, за исключением случаев, прямо предусмотренных законодательством, или когда это необходимо для непосредственного оказания логистических услуг (например, передача данных таможенным брокерам).</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="offer-modal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-black/50 backdrop-blur-md p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-black p-8 md:p-10 rounded-3xl border border-adaptive shadow-2xl max-w-3xl w-full max-h-[85vh] overflow-y-auto overscroll-contain relative transform scale-95 transition-transform duration-300 text-left" data-lenis-prevent>
+            <button onclick="closeModal('offer-modal')" class="absolute top-6 right-6 p-2 text-muted hover:text-black dark:hover:text-white hover:bg-muted rounded-full transition-colors z-10">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <h3 class="font-heading font-bold text-2xl md:text-3xl text-black dark:text-white mb-6 pr-10">Публичный договор-оферта</h3>
+            <div class="text-sm text-muted space-y-4 font-light leading-relaxed">
+                <p><strong>1. Предмет договора</strong><br>ООО "КОППА ЛОГИСТИКС" (далее — Исполнитель) предлагает любому физическому или юридическому лицу (далее — Заказчик) услуги по организации международной перевозки грузов на условиях, изложенных в настоящей Оферте.</p>
+                <p><strong>2. Порядок оказания услуг</strong><br>2.1. Исполнитель обязуется организовать транспортировку груза из Китая в пункт назначения, указанный Заказчиком.<br>2.2. Заказчик обязуется предоставить достоверную информацию о грузе (наименование, вес, характер) и своевременно оплатить услуги.</p>
+                <p><strong>3. Стоимость и порядок расчетов</strong><br>Точная стоимость услуг рассчитывается Исполнителем на основании заявки Заказчика и фиксируется в двустороннем соглашении (договоре или спецификации). Тарифы, указанные на сайте в ознакомительных целях, не являются публичной офертой до момента их подтверждения менеджером.</p>
+                <p><strong>4. Ответственность сторон</strong><br>Исполнитель несет 100% материальную ответственность за сохранность груза с момента его принятия на складе в Китае до момента выдачи Заказчику. В случае повреждения или утери груза Исполнитель компенсирует его документально подтвержденную стоимость.</p>
+                <p><strong>5. Форс-мажор</strong><br>Стороны освобождаются от ответственности за частичное или полное неисполнение обязательств по настоящему Договору, если оно явилось следствием обстоятельств непреодолимой силы (пожар, наводнение, эмбарго, действия таможенных органов и т.д.).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <script>
+        // --- Smooth Scrolling ---
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Menu Anchors Logic
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = this.getAttribute('href');
+                if (target !== '#' && target !== '') {
+                    const trackingView = document.getElementById('tracking-view');
+                    
+                    // If tracking screen is open, close it first before scrolling
+                    if (!trackingView.classList.contains('hidden')) {
+                        toggleTracking(); 
+                        setTimeout(() => lenis.scrollTo(target, { offset: -80 }), 50);
+                    } else {
+                        lenis.scrollTo(target, { offset: -80 });
+                    }
+                }
+            });
+        });
+
+        // --- Theme Toggle ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            lightIcon.classList.remove('hidden');
+        } else {
+            document.documentElement.classList.remove('dark');
+            darkIcon.classList.remove('hidden');
+        }
+
+        function toggleTheme() {
+            darkIcon.classList.toggle('hidden');
+            lightIcon.classList.toggle('hidden');
+
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('color-theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('color-theme', 'dark');
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+
+        // --- Active State Logic for Bottom Dock ---
+        const sections = document.querySelectorAll('section[id]');
+        const dockItems = document.querySelectorAll('.dock-item');
+
+        const dockObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    dockItems.forEach(item => {
+                        item.classList.remove('bg-black/5', 'dark:bg-white/10');
+                        item.querySelector('.dock-icon').classList.remove('text-blue');
+                        item.querySelector('.dock-text').classList.remove('text-blue');
+                        
+                        if (item.getAttribute('href') === '#' + entry.target.id) {
+                            item.classList.add('bg-black/5', 'dark:bg-white/10');
+                            item.querySelector('.dock-icon').classList.add('text-blue');
+                            item.querySelector('.dock-text').classList.add('text-blue');
+                        }
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        sections.forEach(sec => dockObserver.observe(sec));
+
+        // --- Timeline Intersection Observer ---
+        const steps = document.querySelectorAll('.step-container');
+        const observerOptions = {
+            root: null,
+            rootMargin: '-40% 0px -40% 0px', 
+            threshold: 0
+        };
+
+        const stepObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('step-active');
+                } else {
+                    entry.target.classList.remove('step-active');
+                }
+            });
+        }, observerOptions);
+
+        steps.forEach(step => {
+            stepObserver.observe(step);
+        });
+
+        // --- Chat Animation Logic ---
+        const chatContainer = document.getElementById('chat-container');
+        const msg1 = document.getElementById('msg-1');
+        const msgTyping = document.getElementById('msg-typing');
+        const msg2 = document.getElementById('msg-2');
+        let chatAnimated = false;
+
+        const chatObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && !chatAnimated) {
+                chatAnimated = true;
+                
+                // Show client message
+                setTimeout(() => {
+                    msg1.classList.remove('opacity-0', 'translate-y-4');
+                }, 400);
+
+                // Show typing indicator
+                setTimeout(() => {
+                    msgTyping.classList.remove('hidden');
+                    // small delay to allow display:block to apply before animating opacity
+                    setTimeout(() => msgTyping.classList.remove('opacity-0'), 50);
+                }, 1200);
+
+                // Hide typing indicator and show manager message
+                setTimeout(() => {
+                    msgTyping.classList.add('opacity-0');
+                    setTimeout(() => {
+                        msgTyping.classList.add('hidden');
+                        msg2.classList.remove('hidden');
+                        // allow reflow
+                        void msg2.offsetWidth;
+                        msg2.classList.remove('opacity-0', 'translate-y-4');
+                    }, 300); // Wait for fade out
+                }, 3200); // Time spent "typing"
+            }
+        }, { threshold: 0.5 });
+
+        if (chatContainer) {
+            chatObserver.observe(chatContainer);
+        }
+
+        // --- Modals Logic ---
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.remove('hidden');
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            modal.querySelector('div').classList.remove('scale-95');
+            modal.querySelector('div').classList.add('scale-100');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        document.querySelectorAll('.fixed.inset-0.z-\\[200\\]').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal(modal.id);
+                }
+            });
+        });
+
+        // --- Tracking View Logic (SPA Switching) ---
+        function toggleTracking() {
+            const mainView = document.getElementById('main-view');
+            const trackingView = document.getElementById('tracking-view');
+            const searchIcon = document.getElementById('fab-icon-search');
+            const closeIcon = document.getElementById('fab-icon-close');
+
+            if (trackingView.classList.contains('hidden')) {
+                // Открываем трекинг
+                mainView.classList.add('hidden');
+                trackingView.classList.remove('hidden');
+                
+                searchIcon.classList.replace('scale-100', 'scale-50');
+                searchIcon.classList.replace('opacity-100', 'opacity-0');
+                
+                closeIcon.classList.replace('scale-50', 'scale-100');
+                closeIcon.classList.replace('opacity-0', 'opacity-100');
+                
+                window.scrollTo(0, 0);
+                setTimeout(() => document.getElementById('track-input').focus(), 100);
+            } else {
+                // Возвращаемся на главную
+                trackingView.classList.add('hidden');
+                mainView.classList.remove('hidden');
+                
+                closeIcon.classList.replace('scale-100', 'scale-50');
+                closeIcon.classList.replace('opacity-100', 'opacity-0');
+                
+                searchIcon.classList.replace('scale-50', 'scale-100');
+                searchIcon.classList.replace('opacity-0', 'opacity-100');
+                
+                // Скрываем результат прошлого поиска для следующего раза
+                document.getElementById('track-result').classList.add('hidden', 'opacity-0');
+                document.getElementById('track-input').value = '';
+            }
+        }
+
+        function handleTrackSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('track-input');
+            const resultDiv = document.getElementById('track-result');
+            const btn = e.target.querySelector('button[type="submit"]');
+
+            if (!input.value.trim()) return;
+
+            // Состояние загрузки (крутилка)
+            btn.innerHTML = `<svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+
+            // Имитация поиска (800 мс)
+            setTimeout(() => {
+                btn.innerHTML = 'Найти';
+                document.getElementById('track-number-display').innerText = input.value.toUpperCase();
+                
+                resultDiv.classList.remove('hidden');
+                setTimeout(() => {
+                    resultDiv.classList.remove('opacity-0');
+                }, 50);
+            }, 800);
+        }
+
+        // --- Form Logic (Calculator) ---
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const alertBox = document.createElement('div');
+            alertBox.className = 'fixed inset-0 z-[200] flex items-center justify-center bg-black/50 backdrop-blur-md p-4';
+            alertBox.innerHTML = `
+                <div class="bg-white dark:bg-black p-8 rounded-3xl border border-adaptive shadow-2xl max-w-sm w-full text-center transform scale-100 transition-transform">
+                    <div class="w-16 h-16 mx-auto bg-blue/10 rounded-full flex items-center justify-center mb-6">
+                        <svg class="w-8 h-8 text-blue flex-shrink-0" width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    </div>
+                    <h3 class="font-heading font-bold text-xl text-black dark:text-white mb-2">Заявка принята!</h3>
+                    <p class="text-sm text-muted mb-8">Наш менеджер свяжется с вами в течение 15 минут для уточнения деталей.</p>
+                    <button onclick="this.closest('.fixed').remove()" class="w-full bg-blue text-white py-3 rounded-full font-medium hover:bg-blue/90 transition-colors">Хорошо</button>
+                </div>
+            `;
+            document.body.appendChild(alertBox);
+            e.target.reset();
+        }
+    </script>
+</body>
+</html>
