@@ -10,9 +10,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Phosphor Icons (Вместо FontAwesome для единого стиля и легкости) -->
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -41,7 +42,7 @@
                         }
                     },
                     animation: {
-                        'shimmer': 'shimmer 2s infinite',
+                        'shimmer': 'shimmer 2.5s infinite',
                         'marquee': 'marquee 25s linear infinite'
                     }
                 }
@@ -79,6 +80,15 @@
             -webkit-text-fill-color: transparent;
         }
 
+        /* Скрываем стандартный скроллбар в слайдере */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
         /* Стилизация скроллбара для модалки */
         #policy-modal-content::-webkit-scrollbar {
             width: 8px;
@@ -95,35 +105,20 @@
             background: #52525b; 
         }
 
-        /* Скрываем стандартный скроллбар для слайдера */
-        .scrollbar-none::-webkit-scrollbar {
-            display: none;
-        }
-
         /* Анимация обводки для блока "Наше мото-агентство" */
         .svg-border-rect {
-            /* Задаем длину штриха и отступ с большим запасом, чтобы покрыть любой размер карточки */
             stroke-dasharray: 4000;
             stroke-dashoffset: 4000;
-            /* Убираем заливку, задаем цвет линии и толщину */
             fill: none;
             stroke: #deff9a;
-            stroke-width: 4px; /* Учитывая что SVG спозиционирован, половина уйдет за край, будет видно 2px */
-            /* Плавность - за счет CSS анимации */
+            stroke-width: 4px;
         }
-
-        /* Класс, который добавляется через JS при скролле */
         .is-visible .svg-border-rect {
             animation: drawBorder 5s ease-in-out forwards;
         }
-
         @keyframes drawBorder {
-            from {
-                stroke-dashoffset: 4000;
-            }
-            to {
-                stroke-dashoffset: 0;
-            }
+            from { stroke-dashoffset: 4000; }
+            to { stroke-dashoffset: 0; }
         }
     </style>
 </head>
@@ -141,14 +136,14 @@
         </div>
     </nav>
 
-    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <section class="relative min-h-[100dvh] flex items-center justify-center pt-20 overflow-hidden">
         <div class="absolute inset-0 z-0">
             <div class="absolute inset-0 bg-hero-pattern bg-cover bg-center bg-no-repeat scale-105"></div>
             <div class="absolute inset-0 bg-gradient-to-b from-neutral-950/90 via-neutral-950/80 to-neutral-950"></div>
             <div class="absolute inset-0 bg-grid opacity-30"></div>
         </div>
 
-        <div class="container relative z-10 mx-auto px-6 lg:px-12 flex flex-col items-center text-center">
+        <div class="container relative z-10 mx-auto px-6 lg:px-12 flex flex-col items-center text-center mt-10 md:mt-0">
             <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-brand/30 bg-brand/10 text-brand text-sm font-semibold mb-8 backdrop-blur-sm">
                 <span class="relative flex h-2 w-2">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand opacity-75"></span>
@@ -157,11 +152,11 @@
                 Нишевое агентство для мотобизнеса
             </div>
             
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 max-w-5xl">
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 max-w-5xl text-balance">
                 Приведем от 30 целевых заявок на покупку мототехники в первый месяц работы, <span class="text-brand">разморозив капитал</span> вашего мотосалона.
             </h1>
             
-            <p class="text-lg md:text-xl text-neutral-400 max-w-3xl mb-10 font-medium">
+            <p class="text-lg md:text-xl text-neutral-400 max-w-3xl mb-10 font-medium text-balance">
                 Комплексная лидогенерация <span class="text-white">исключительно для магазинов мотоциклов, квадроциклов, снегоходов и экипировки</span>. Без слива бюджета маркетологами-универсалами.
             </p>
             
@@ -178,7 +173,6 @@
         </div>
         <div class="flex overflow-hidden relative group">
             <div class="flex whitespace-nowrap animate-marquee group-hover:[animation-play-state:paused]">
-                <!-- Первый сет брендов -->
                 <div class="flex gap-16 px-8 text-neutral-600 font-extrabold text-2xl items-center tracking-wider">
                     <span class="hover:text-white transition-colors cursor-default">YAMAHA</span>
                     <span class="hover:text-brand transition-colors cursor-default">BRP</span>
@@ -187,7 +181,6 @@
                     <span class="hover:text-white transition-colors cursor-default">BSE</span>
                     <span class="hover:text-brand transition-colors cursor-default">KAYO</span>
                 </div>
-                <!-- Дубликат для бесшовной прокрутки -->
                 <div class="flex gap-16 px-8 text-neutral-600 font-extrabold text-2xl items-center tracking-wider">
                     <span class="hover:text-white transition-colors cursor-default">YAMAHA</span>
                     <span class="hover:text-brand transition-colors cursor-default">BRP</span>
@@ -203,7 +196,7 @@
     <section class="py-24 bg-neutral-950 relative border-t border-white/5">
         <div class="container mx-auto px-6 lg:px-12 relative z-10">
             <div class="max-w-4xl mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-gradient">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-gradient text-balance">
                     Почему техника на миллионы стоит в зале, а оборотные средства заморожены?
                 </h2>
                 <p class="text-xl text-neutral-400 font-medium">
@@ -250,8 +243,8 @@
     <section class="py-24 bg-neutral-900 relative">
         <div class="absolute inset-0 bg-grid opacity-20"></div>
         <div class="container mx-auto px-6 lg:px-12 relative z-10">
-            <div class="text-center max-w-3xl mx-auto mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold tracking-tight text-balance mb-4">
+            <div class="text-center max-w-4xl mx-auto mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-balance">
                     Как мы превращаем клики в покупателей с чеком <span class="text-brand whitespace-nowrap">от 500 000 ₽</span>
                 </h2>
                 <p class="text-xl text-neutral-400 font-medium">
@@ -259,9 +252,7 @@
                 </p>
             </div>
 
-            <!-- Адаптивный Bento Grid: 2 колонки на мобилке, 3 на десктопе -->
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4 auto-rows-[250px]">
-                <!-- Feature 1 (Large) -->
                 <div class="col-span-2 md:col-span-2 glass-card rounded-3xl p-6 md:p-8 flex flex-col justify-between hover-glow transition-all duration-300 group relative overflow-hidden">
                     <div class="absolute -right-10 -top-10 w-40 h-40 bg-brand/10 rounded-full blur-3xl group-hover:bg-brand/20 transition-colors"></div>
                     <div>
@@ -273,7 +264,6 @@
                     </div>
                 </div>
 
-                <!-- Feature 2 (Small) -->
                 <div class="col-span-1 glass-card rounded-3xl p-5 md:p-8 flex flex-col justify-between hover-glow transition-all duration-300">
                     <div>
                         <div class="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center mb-4 border border-brand/30">
@@ -284,7 +274,6 @@
                     </div>
                 </div>
 
-                <!-- Feature 3 (Small) -->
                 <div class="col-span-1 glass-card rounded-3xl p-5 md:p-8 flex flex-col justify-between hover-glow transition-all duration-300">
                     <div>
                         <div class="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center mb-4 border border-brand/30">
@@ -295,7 +284,6 @@
                     </div>
                 </div>
 
-                <!-- Feature 4 (Large) -->
                 <div class="col-span-2 md:col-span-2 glass-card rounded-3xl p-6 md:p-8 flex flex-col justify-between hover-glow transition-all duration-300 group relative overflow-hidden">
                     <div class="absolute -bottom-10 -right-10 w-40 h-40 bg-brand/10 rounded-full blur-3xl group-hover:bg-brand/20 transition-colors"></div>
                     <div>
@@ -310,177 +298,201 @@
         </div>
     </section>
 
-    <section class="py-24 bg-neutral-950 border-t border-white/5 relative">
+    <section class="py-24 bg-neutral-950 border-t border-white/5 relative overflow-hidden">
         <div class="absolute top-0 right-0 w-96 h-96 bg-brand/5 rounded-full blur-3xl pointer-events-none"></div>
 
+        <!-- Заголовок и стрелки внутри стандартного контейнера -->
         <div class="container mx-auto px-6 lg:px-12 relative z-10">
-            <!-- Заголовок и Кнопки Навигации -->
-            <div class="flex flex-col md:flex-row md:items-end justify-between max-w-5xl mx-auto mb-12 gap-6">
-                <div>
-                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4">Реальные цифры наших клиентов</h2>
-                    <p class="text-neutral-400 text-base md:text-lg">Листайте кейсы, чтобы увидеть результаты работы в разных регионах</p>
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div class="max-w-3xl">
+                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-4 text-balance">Реальные цифры наших клиентов</h2>
+                    <p class="text-neutral-400 text-lg">Листайте карточки, чтобы посмотреть результаты в разных сегментах мотобизнеса.</p>
                 </div>
-                <!-- Кнопки управления слайдером -->
-                <div class="flex items-center gap-3 shrink-0 hidden md:flex">
-                    <button id="slider-prev" aria-label="Предыдущий кейс" class="w-12 h-12 rounded-full border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white hover:border-brand hover:text-brand disabled:opacity-30 disabled:hover:border-neutral-700 disabled:hover:text-white transition-all duration-300 shadow-lg">
-                        <i class="ph-bold ph-caret-left text-xl"></i>
+                
+                <!-- Кнопки управления (только для ПК) -->
+                <div class="hidden md:flex gap-3 shrink-0">
+                    <button onclick="scrollSlider('left')" class="w-14 h-14 rounded-full border border-neutral-700 bg-neutral-900 flex items-center justify-center hover:bg-brand hover:text-black hover:border-brand transition-all">
+                        <i class="ph-bold ph-arrow-left text-2xl"></i>
                     </button>
-                    <button id="slider-next" aria-label="Следующий кейс" class="w-12 h-12 rounded-full border border-neutral-700 bg-neutral-900 flex items-center justify-center text-white hover:border-brand hover:text-brand disabled:opacity-30 disabled:hover:border-neutral-700 disabled:hover:text-white transition-all duration-300 shadow-lg">
-                        <i class="ph-bold ph-caret-right text-xl"></i>
+                    <button onclick="scrollSlider('right')" class="w-14 h-14 rounded-full border border-neutral-700 bg-neutral-900 flex items-center justify-center hover:bg-brand hover:text-black hover:border-brand transition-all">
+                        <i class="ph-bold ph-arrow-right text-2xl"></i>
                     </button>
                 </div>
             </div>
+        </div>
 
-            <!-- Горизонтальный слайдер -->
-            <div id="cases-slider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth max-w-5xl mx-auto pb-6 border-b border-white/5 scrollbar-none" style="scrollbar-width: none; -ms-overflow-style: none;">
+        <!-- Сам слайдер ВЫНЕСЕН за пределы контейнера, чтобы не было обрезаний! -->
+        <div class="w-full relative z-10">
+            <!-- Отступы px-6 md:px-12 lg:px-24 обеспечивают красивый старт, но контейнер 100% ширины -->
+            <div id="cases-slider" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth hide-scrollbar pb-16 pt-4 w-full px-6 md:px-12 lg:px-24 xl:px-32">
                 
-                <!-- Кейс 1: Екатеринбург -->
-                <div class="snap-center shrink-0 w-full md:w-[85%] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-8 md:p-12 shadow-xl hover:border-brand/30 transition-colors">
+                <!-- Кейс 1: CFMOTO -->
+                <div class="snap-center lg:snap-start shrink-0 w-[85vw] md:w-[600px] lg:w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-xl relative group hover:border-brand/30 transition-colors">
                     <div class="flex items-center gap-4 mb-8 pb-6 border-b border-white/10">
-                        <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center"><i class="ph-bold ph-storefront text-2xl text-white"></i></div>
-                        <h3 class="text-2xl font-bold text-white">Мотосалон в Екатеринбурге</h3>
+                        <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center shrink-0">
+                            <i class="ph-bold ph-storefront text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-white leading-tight">Мотосалон в Екатеринбурге (CFMOTO, BSE)</h3>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div class="p-6 rounded-2xl bg-neutral-950/50 border border-neutral-800">
-                            <div class="text-neutral-500 font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2">
+                        <div class="p-5 rounded-2xl bg-neutral-950/50 border border-neutral-800">
+                            <div class="text-neutral-500 font-semibold mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
                                 <i class="ph-bold ph-trend-down text-red-500/70"></i> Было
                             </div>
-                            <div class="text-3xl font-extrabold text-neutral-400 mb-2">4 <span class="text-lg font-medium text-neutral-600">заявки в месяц</span></div>
-                            <div class="text-red-400/80 font-medium">по 2 150 руб.</div>
+                            <div class="text-3xl md:text-4xl font-extrabold text-neutral-400 mb-1">
+                                7 <span class="text-lg font-medium text-neutral-600">заявок</span>
+                            </div>
+                            <div class="text-red-400/80 font-medium text-sm">по 1 850 руб.</div>
                         </div>
-                        <div class="p-6 rounded-2xl bg-brand/10 border border-brand/30">
-                            <div class="text-brand font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2">
+                        <div class="p-5 rounded-2xl bg-brand/10 border border-brand/30 relative">
+                            <div class="text-brand font-semibold mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
                                 <i class="ph-bold ph-rocket text-brand"></i> Стало
                             </div>
-                            <div class="text-4xl font-extrabold text-white mb-2 drop-shadow-[0_0_10px_rgba(222,255,154,0.3)]">43 <span class="text-lg font-medium text-neutral-300">заявки в месяц</span></div>
-                            <div class="text-brand font-bold">по 640 руб.</div>
+                            <div class="text-4xl md:text-5xl font-extrabold text-white mb-1 drop-shadow-[0_0_10px_rgba(222,255,154,0.3)]">
+                                43 <span class="text-lg font-medium text-neutral-300">заявки</span>
+                            </div>
+                            <div class="text-brand font-bold text-sm">по 620 руб.</div>
                         </div>
                     </div>
-                    <div class="bg-brand text-black rounded-xl p-6 flex items-center gap-3 font-bold text-lg">
-                        <i class="ph-bold ph-check-circle text-2xl"></i><span>Итог: продали 3 квадроцикла CFMOTO.</span>
+                    <div class="bg-brand text-black rounded-xl p-5 flex items-center justify-between gap-4 font-bold md:text-lg text-sm">
+                        <span>Итог: продали 4 квадроцикла и 2 питбайка.</span>
                     </div>
                 </div>
 
-                <!-- Кейс 2: Дилер BRP -->
-                <div class="snap-center shrink-0 w-full md:w-[85%] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-8 md:p-12 shadow-xl hover:border-brand/30 transition-colors">
+                <!-- Кейс 2: BRP -->
+                <div class="snap-center lg:snap-start shrink-0 w-[85vw] md:w-[600px] lg:w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-xl relative group hover:border-brand/30 transition-colors">
                     <div class="flex items-center gap-4 mb-8 pb-6 border-b border-white/10">
-                        <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center"><i class="ph-bold ph-snow text-2xl text-white"></i></div>
-                        <h3 class="text-2xl font-bold text-white">Дилер BRP в Москве</h3>
+                        <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center shrink-0">
+                            <i class="ph-bold ph-crown text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-white leading-tight">Дилер BRP в Москве (Снегоходы)</h3>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div class="p-6 rounded-2xl bg-neutral-950/50 border border-neutral-800">
-                            <div class="text-neutral-500 font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2"><i class="ph-bold ph-trend-down text-red-500/70"></i> Было</div>
-                            <div class="text-3xl font-extrabold text-neutral-400 mb-2">12 <span class="text-lg font-medium text-neutral-600">заявок</span></div>
-                            <div class="text-red-400/80 font-medium">по 4 300 руб.</div>
+                        <div class="p-5 rounded-2xl bg-neutral-950/50 border border-neutral-800">
+                            <div class="text-neutral-500 font-semibold mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
+                                <i class="ph-bold ph-trend-down text-red-500/70"></i> Было
+                            </div>
+                            <div class="text-3xl md:text-4xl font-extrabold text-neutral-400 mb-1">
+                                12 <span class="text-lg font-medium text-neutral-600">заявок</span>
+                            </div>
+                            <div class="text-red-400/80 font-medium text-sm">по 4 300 руб.</div>
                         </div>
-                        <div class="p-6 rounded-2xl bg-brand/10 border border-brand/30">
-                            <div class="text-brand font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2"><i class="ph-bold ph-rocket text-brand"></i> Стало</div>
-                            <div class="text-4xl font-extrabold text-white mb-2 drop-shadow-[0_0_10px_rgba(222,255,154,0.3)]">87 <span class="text-lg font-medium text-neutral-300">заявок</span></div>
-                            <div class="text-brand font-bold">по 1 250 руб.</div>
+                        <div class="p-5 rounded-2xl bg-brand/10 border border-brand/30 relative">
+                            <div class="text-brand font-semibold mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
+                                <i class="ph-bold ph-rocket text-brand"></i> Стало
+                            </div>
+                            <div class="text-4xl md:text-5xl font-extrabold text-white mb-1 drop-shadow-[0_0_10px_rgba(222,255,154,0.3)]">
+                                31 <span class="text-lg font-medium text-neutral-300">заявка</span>
+                            </div>
+                            <div class="text-brand font-bold text-sm">по 1 480 руб.</div>
                         </div>
                     </div>
-                    <div class="bg-brand text-black rounded-xl p-6 flex items-center gap-3 font-bold text-lg">
-                        <i class="ph-bold ph-check-circle text-2xl"></i><span>Итог: закрыли план по снегоходам в несезон.</span>
+                    <div class="bg-brand text-black rounded-xl p-5 flex items-center justify-between gap-4 font-bold md:text-lg text-sm">
+                        <span>Итог: 3 снегохода Ski-Doo продано в несезон.</span>
                     </div>
                 </div>
 
-                <!-- Кейс 3: Магазин экипировки -->
-                <div class="snap-center shrink-0 w-full md:w-[85%] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-8 md:p-12 shadow-xl hover:border-brand/30 transition-colors">
+                <!-- Кейс 3: Экипировка -->
+                <div class="snap-center lg:snap-start shrink-0 w-[85vw] md:w-[600px] lg:w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-xl relative group hover:border-brand/30 transition-colors">
                     <div class="flex items-center gap-4 mb-8 pb-6 border-b border-white/10">
-                        <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center"><i class="ph-bold ph-t-shirt text-2xl text-white"></i></div>
-                        <h3 class="text-2xl font-bold text-white">Магазин мотоэкипировки, СПб</h3>
+                        <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center shrink-0">
+                            <i class="ph-bold ph-t-shirt text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-white leading-tight">Магазин мотоэкипировки (СПб)</h3>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div class="p-6 rounded-2xl bg-neutral-950/50 border border-neutral-800">
-                            <div class="text-neutral-500 font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2"><i class="ph-bold ph-trend-down text-red-500/70"></i> Было</div>
-                            <div class="text-3xl font-extrabold text-neutral-400 mb-2">32 <span class="text-lg font-medium text-neutral-600">заявки</span></div>
-                            <div class="text-red-400/80 font-medium">по 890 руб.</div>
+                        <div class="p-5 rounded-2xl bg-neutral-950/50 border border-neutral-800">
+                            <div class="text-neutral-500 font-semibold mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
+                                <i class="ph-bold ph-trend-down text-red-500/70"></i> Было
+                            </div>
+                            <div class="text-3xl md:text-4xl font-extrabold text-neutral-400 mb-1">
+                                24 <span class="text-lg font-medium text-neutral-600">заказа</span>
+                            </div>
+                            <div class="text-red-400/80 font-medium text-sm">Сайт почти не приносил продаж</div>
                         </div>
-                        <div class="p-6 rounded-2xl bg-brand/10 border border-brand/30">
-                            <div class="text-brand font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2"><i class="ph-bold ph-rocket text-brand"></i> Стало</div>
-                            <div class="text-4xl font-extrabold text-white mb-2 drop-shadow-[0_0_10px_rgba(222,255,154,0.3)]">112 <span class="text-lg font-medium text-neutral-300">заявок</span></div>
-                            <div class="text-brand font-bold">по 310 руб.</div>
+                        <div class="p-5 rounded-2xl bg-brand/10 border border-brand/30 relative">
+                            <div class="text-brand font-semibold mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
+                                <i class="ph-bold ph-rocket text-brand"></i> Стало
+                            </div>
+                            <div class="text-4xl md:text-5xl font-extrabold text-white mb-1 drop-shadow-[0_0_10px_rgba(222,255,154,0.3)]">
+                                187 <span class="text-lg font-medium text-neutral-300">заказов</span>
+                            </div>
+                            <div class="text-brand font-bold text-sm">Ср. чек вырос на 40%</div>
                         </div>
                     </div>
-                    <div class="bg-brand text-black rounded-xl p-6 flex items-center gap-3 font-bold text-lg">
-                        <i class="ph-bold ph-check-circle text-2xl"></i><span>Итог: x3 продаж шлемов премиум-сегмента.</span>
+                    <div class="bg-brand text-black rounded-xl p-5 flex items-center justify-between gap-4 font-bold md:text-lg text-sm">
+                        <span>Итог: распродали шлемы премиум-сегмента за месяц.</span>
                     </div>
                 </div>
 
-                <!-- Кейс 4: Эндуро-техника -->
-                <div class="snap-center shrink-0 w-full md:w-[85%] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-8 md:p-12 shadow-xl hover:border-brand/30 transition-colors">
+                <!-- Кейс 4: Эндуро -->
+                <div class="snap-center lg:snap-start shrink-0 w-[85vw] md:w-[600px] lg:w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-xl relative group hover:border-brand/30 transition-colors">
                     <div class="flex items-center gap-4 mb-8 pb-6 border-b border-white/10">
-                        <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center"><i class="ph-bold ph-mountains text-2xl text-white"></i></div>
-                        <h3 class="text-2xl font-bold text-white">Салон китайского эндуро</h3>
+                        <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center shrink-0">
+                            <i class="ph-bold ph-mountains text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-white leading-tight">Прокат и продажа Эндуро (Сочи)</h3>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div class="p-6 rounded-2xl bg-neutral-950/50 border border-neutral-800">
-                            <div class="text-neutral-500 font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2"><i class="ph-bold ph-trend-down text-red-500/70"></i> Было</div>
-                            <div class="text-3xl font-extrabold text-neutral-400 mb-2">17 <span class="text-lg font-medium text-neutral-600">заявок</span></div>
-                            <div class="text-red-400/80 font-medium">Много нецелевых</div>
+                        <div class="p-5 rounded-2xl bg-neutral-950/50 border border-neutral-800">
+                            <div class="text-neutral-500 font-semibold mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
+                                <i class="ph-bold ph-trend-down text-red-500/70"></i> Было
+                            </div>
+                            <div class="text-3xl md:text-4xl font-extrabold text-neutral-400 mb-1">
+                                14 <span class="text-lg font-medium text-neutral-600">заявок</span>
+                            </div>
+                            <div class="text-red-400/80 font-medium text-sm">Только сарафанное радио</div>
                         </div>
-                        <div class="p-6 rounded-2xl bg-brand/10 border border-brand/30">
-                            <div class="text-brand font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2"><i class="ph-bold ph-rocket text-brand"></i> Стало</div>
-                            <div class="text-4xl font-extrabold text-white mb-2 drop-shadow-[0_0_10px_rgba(222,255,154,0.3)]">59 <span class="text-lg font-medium text-neutral-300">заявок</span></div>
-                            <div class="text-brand font-bold">по 450 руб.</div>
+                        <div class="p-5 rounded-2xl bg-brand/10 border border-brand/30 relative">
+                            <div class="text-brand font-semibold mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
+                                <i class="ph-bold ph-rocket text-brand"></i> Стало
+                            </div>
+                            <div class="text-4xl md:text-5xl font-extrabold text-white mb-1 drop-shadow-[0_0_10px_rgba(222,255,154,0.3)]">
+                                112 <span class="text-lg font-medium text-neutral-300">заявок</span>
+                            </div>
+                            <div class="text-brand font-bold text-sm">по 290 руб.</div>
                         </div>
                     </div>
-                    <div class="bg-brand text-black rounded-xl p-6 flex items-center gap-3 font-bold text-lg">
-                        <i class="ph-bold ph-check-circle text-2xl"></i><span>Итог: распродали всю партию BSE за месяц.</span>
+                    <div class="bg-brand text-black rounded-xl p-5 flex items-center justify-between gap-4 font-bold md:text-lg text-sm">
+                        <span>Итог: Полная запись на прокат на 3 недели вперед.</span>
                     </div>
                 </div>
 
-                <!-- Кейс 5: Дилер Polaris -->
-                <div class="snap-center shrink-0 w-full md:w-[85%] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-8 md:p-12 shadow-xl hover:border-brand/30 transition-colors">
+                <!-- Кейс 5: Сеть салонов -->
+                <div class="snap-center lg:snap-start shrink-0 w-[85vw] md:w-[600px] lg:w-[800px] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-6 md:p-10 shadow-xl relative group hover:border-brand/30 transition-colors">
                     <div class="flex items-center gap-4 mb-8 pb-6 border-b border-white/10">
-                        <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center"><i class="ph-bold ph-jeep text-2xl text-white"></i></div>
-                        <h3 class="text-2xl font-bold text-white">Официальный дилер Polaris</h3>
+                        <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center shrink-0">
+                            <i class="ph-bold ph-buildings text-2xl text-white"></i>
+                        </div>
+                        <h3 class="text-xl md:text-2xl font-bold text-white leading-tight">Сеть мотосалонов (Юг РФ)</h3>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div class="p-6 rounded-2xl bg-neutral-950/50 border border-neutral-800">
-                            <div class="text-neutral-500 font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2"><i class="ph-bold ph-trend-down text-red-500/70"></i> Было</div>
-                            <div class="text-3xl font-extrabold text-neutral-400 mb-2">3 <span class="text-lg font-medium text-neutral-600">заявки</span></div>
-                            <div class="text-red-400/80 font-medium">по 7 800 руб.</div>
+                        <div class="p-5 rounded-2xl bg-neutral-950/50 border border-neutral-800">
+                            <div class="text-neutral-500 font-semibold mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
+                                <i class="ph-bold ph-trend-down text-red-500/70"></i> Было
+                            </div>
+                            <div class="text-3xl md:text-4xl font-extrabold text-neutral-400 mb-1">
+                                48 <span class="text-lg font-medium text-neutral-600">заявок</span>
+                            </div>
+                            <div class="text-red-400/80 font-medium text-sm">Много "мусорного" трафика</div>
                         </div>
-                        <div class="p-6 rounded-2xl bg-brand/10 border border-brand/30">
-                            <div class="text-brand font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2"><i class="ph-bold ph-rocket text-brand"></i> Стало</div>
-                            <div class="text-4xl font-extrabold text-white mb-2 drop-shadow-[0_0_10px_rgba(222,255,154,0.3)]">21 <span class="text-lg font-medium text-neutral-300">заявка</span></div>
-                            <div class="text-brand font-bold">по 1 850 руб.</div>
+                        <div class="p-5 rounded-2xl bg-brand/10 border border-brand/30 relative">
+                            <div class="text-brand font-semibold mb-2 uppercase tracking-wide text-xs flex items-center gap-2">
+                                <i class="ph-bold ph-rocket text-brand"></i> Стало
+                            </div>
+                            <div class="text-4xl md:text-5xl font-extrabold text-white mb-1 drop-shadow-[0_0_10px_rgba(222,255,154,0.3)]">
+                                219 <span class="text-lg font-medium text-neutral-300">заявок</span>
+                            </div>
+                            <div class="text-brand font-bold text-sm">Квалифицированные лиды</div>
                         </div>
                     </div>
-                    <div class="bg-brand text-black rounded-xl p-6 flex items-center gap-3 font-bold text-lg">
-                        <i class="ph-bold ph-check-circle text-2xl"></i><span>Итог: 2 проданных багги RZR с рекламы.</span>
+                    <div class="bg-brand text-black rounded-xl p-5 flex items-center justify-between gap-4 font-bold md:text-lg text-sm">
+                        <span>Итог: Снизили цену качественного лида в 3.5 раза.</span>
                     </div>
                 </div>
 
-                <!-- Кейс 6: Сеть салонов -->
-                <div class="snap-center shrink-0 w-full md:w-[85%] bg-neutral-900 border border-neutral-800 rounded-[2rem] p-8 md:p-12 shadow-xl hover:border-brand/30 transition-colors">
-                    <div class="flex items-center gap-4 mb-8 pb-6 border-b border-white/10">
-                        <div class="w-12 h-12 rounded-xl bg-neutral-800 flex items-center justify-center"><i class="ph-bold ph-buildings text-2xl text-white"></i></div>
-                        <h3 class="text-2xl font-bold text-white">Сеть из 3-х мотосалонов</h3>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                        <div class="p-6 rounded-2xl bg-neutral-950/50 border border-neutral-800">
-                            <div class="text-neutral-500 font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2"><i class="ph-bold ph-trend-down text-red-500/70"></i> Было</div>
-                            <div class="text-3xl font-extrabold text-neutral-400 mb-2">28 <span class="text-lg font-medium text-neutral-600">заявок</span></div>
-                            <div class="text-red-400/80 font-medium">Нет сквозной аналитики</div>
-                        </div>
-                        <div class="p-6 rounded-2xl bg-brand/10 border border-brand/30">
-                            <div class="text-brand font-semibold mb-2 uppercase tracking-wide text-sm flex items-center gap-2"><i class="ph-bold ph-rocket text-brand"></i> Стало</div>
-                            <div class="text-4xl font-extrabold text-white mb-2 drop-shadow-[0_0_10px_rgba(222,255,154,0.3)]">142 <span class="text-lg font-medium text-neutral-300">заявки</span></div>
-                            <div class="text-brand font-bold">Снизили CPL на 45%</div>
-                        </div>
-                    </div>
-                    <div class="bg-brand text-black rounded-xl p-6 flex items-center gap-3 font-bold text-lg">
-                        <i class="ph-bold ph-check-circle text-2xl"></i><span>Итог: загрузили отдел продаж на 100%.</span>
-                    </div>
-                </div>
-
-            </div>
-            
-            <!-- Мобильная подсказка -->
-            <div class="text-center mt-6 text-neutral-500 text-sm md:hidden animate-pulse">
-                <i class="ph-bold ph-arrows-left-right align-middle mr-1"></i> Свайпайте вбок
+                <!-- Пустой блок для отступа последней карточки от правого края -->
+                <div class="shrink-0 w-2 md:w-6 lg:w-12"></div>
             </div>
         </div>
     </section>
@@ -494,7 +506,6 @@
             </div>
 
             <div class="flex flex-col lg:flex-row gap-8 max-w-5xl mx-auto">
-                <!-- Competitors -->
                 <div class="flex-1 rounded-3xl p-8 border border-neutral-800 bg-neutral-900/30">
                     <div class="flex items-center gap-3 mb-8">
                         <div class="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center">
@@ -502,7 +513,6 @@
                         </div>
                         <h3 class="text-2xl font-bold text-neutral-300">Маркетологи-универсалы</h3>
                     </div>
-                    
                     <ul class="space-y-6">
                         <li class="flex gap-4">
                             <i class="ph-bold ph-x-circle text-red-500 text-xl shrink-0 mt-1"></i>
@@ -535,20 +545,13 @@
                     </ul>
                 </div>
 
-                <!-- Us (with animated border) -->
                 <div id="agency-card" class="flex-1 rounded-3xl p-8 bg-brand/5 relative shadow-[0_0_50px_rgba(222,255,154,0.05)] overflow-visible">
-                    
-                    <!-- SVG для анимированной обводки -->
                     <svg class="absolute inset-0 w-full h-full pointer-events-none rounded-3xl" xmlns="http://www.w3.org/2000/svg">
                         <rect width="100%" height="100%" rx="24" class="svg-border-rect" />
                     </svg>
-
-                    <!-- Плашка "Ваш выбор" -->
                     <div class="absolute -top-3.5 right-8 bg-brand text-black text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-wider z-10 border-4 border-[#0a0a0a]">
                         Ваш выбор
                     </div>
-
-                    <!-- Контент карточки -->
                     <div class="relative z-10">
                         <div class="flex items-center gap-3 mb-8">
                             <div class="w-10 h-10 rounded-full bg-brand flex items-center justify-center">
@@ -556,7 +559,6 @@
                             </div>
                             <h3 class="text-2xl font-bold text-white">Наше мото-агентство</h3>
                         </div>
-                        
                         <ul class="space-y-6">
                             <li class="flex gap-4">
                                 <i class="ph-bold ph-check-circle text-brand text-xl shrink-0 mt-1"></i>
@@ -595,58 +597,59 @@
 
     <section class="py-24 bg-neutral-900 relative">
         <div class="container mx-auto px-6 lg:px-12">
-            <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-16 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-16 text-center text-balance">
                 4 шага до стабильного потока заявок
             </h2>
 
             <div class="max-w-4xl mx-auto relative">
                 <div id="roadmap-container" class="space-y-12 relative z-10">
-                    <!-- Укороченная вертикальная линия -->
+                    <!-- Линия на ПК -->
                     <div class="hidden md:block absolute left-1/2 transform -translate-x-1/2 w-px bg-neutral-800 top-[28px] bottom-[28px] -z-10"></div>
 
                     <!-- Step 1 -->
-                    <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center justify-between w-full relative" style="transition-delay: 100ms;">
-                        <div class="md:w-5/12 mb-6 md:mb-0 md:text-right">
+                    <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center w-full relative" style="transition-delay: 100ms;">
+                        <!-- На телефоне цифра идет первой, текст второй за счет order-1 и order-2 -->
+                        <div class="w-14 h-14 shrink-0 mx-auto order-1 md:order-2 flex items-center justify-center bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] z-20">
+                            <span class="text-xl font-black text-brand">1</span>
+                        </div>
+                        <div class="w-full md:w-5/12 text-center md:text-right order-2 md:order-1 mt-4 md:mt-0 px-4 md:px-0">
                             <h3 class="text-2xl font-bold mb-2">Аудит и стратегия</h3>
                             <p class="text-neutral-400">Изучаем ассортимент, маржу и конкурентов.</p>
                         </div>
-                        <div class="z-20 flex items-center justify-center w-14 h-14 bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] mx-auto">
-                            <span class="text-xl font-black text-brand">1</span>
-                        </div>
-                        <div class="md:w-5/12 hidden md:block"></div>
+                        <div class="w-full md:w-5/12 hidden md:block order-3"></div>
                     </div>
 
                     <!-- Step 2 -->
-                    <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center justify-between w-full relative" style="transition-delay: 300ms;">
-                        <div class="md:w-5/12 hidden md:block"></div>
-                        <div class="z-20 flex items-center justify-center w-14 h-14 bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] mx-auto mb-6 md:mb-0">
+                    <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center w-full relative" style="transition-delay: 300ms;">
+                        <div class="w-full md:w-5/12 hidden md:block order-1"></div>
+                        <div class="w-14 h-14 shrink-0 mx-auto order-1 md:order-2 flex items-center justify-center bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] z-20">
                             <span class="text-xl font-black text-brand">2</span>
                         </div>
-                        <div class="md:w-5/12 text-center md:text-left">
+                        <div class="w-full md:w-5/12 text-center md:text-left order-2 md:order-3 mt-4 md:mt-0 px-4 md:px-0">
                             <h3 class="text-2xl font-bold mb-2">Упаковка смыслов</h3>
                             <p class="text-neutral-400">Проектируем посадочные страницы, заточенные под конверсию.</p>
                         </div>
                     </div>
 
                     <!-- Step 3 -->
-                    <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center justify-between w-full relative" style="transition-delay: 500ms;">
-                        <div class="md:w-5/12 mb-6 md:mb-0 text-center md:text-right">
+                    <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center w-full relative" style="transition-delay: 500ms;">
+                        <div class="w-14 h-14 shrink-0 mx-auto order-1 md:order-2 flex items-center justify-center bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] z-20">
+                            <span class="text-xl font-black text-brand">3</span>
+                        </div>
+                        <div class="w-full md:w-5/12 text-center md:text-right order-2 md:order-1 mt-4 md:mt-0 px-4 md:px-0">
                             <h3 class="text-2xl font-bold mb-2">Запуск трафика</h3>
                             <p class="text-neutral-400">Настраиваем кампании, отсекаем нецелевых посетителей.</p>
                         </div>
-                        <div class="z-20 flex items-center justify-center w-14 h-14 bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] mx-auto">
-                            <span class="text-xl font-black text-brand">3</span>
-                        </div>
-                        <div class="md:w-5/12 hidden md:block"></div>
+                        <div class="w-full md:w-5/12 hidden md:block order-3"></div>
                     </div>
 
                     <!-- Step 4 -->
-                    <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center justify-between w-full relative" style="transition-delay: 700ms;">
-                        <div class="md:w-5/12 hidden md:block"></div>
-                        <div class="z-20 flex items-center justify-center w-14 h-14 bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] mx-auto mb-6 md:mb-0">
+                    <div class="step-item opacity-0 translate-y-10 transition-all duration-700 ease-out flex flex-col md:flex-row items-center w-full relative" style="transition-delay: 700ms;">
+                        <div class="w-full md:w-5/12 hidden md:block order-1"></div>
+                        <div class="w-14 h-14 shrink-0 mx-auto order-1 md:order-2 flex items-center justify-center bg-neutral-950 rounded-full border-2 border-brand shadow-[0_0_15px_rgba(222,255,154,0.3)] z-20">
                             <span class="text-xl font-black text-brand">4</span>
                         </div>
-                        <div class="md:w-5/12 text-center md:text-left">
+                        <div class="w-full md:w-5/12 text-center md:text-left order-2 md:order-3 mt-4 md:mt-0 px-4 md:px-0">
                             <h3 class="text-2xl font-bold mb-2">Оптимизация и масштабирование</h3>
                             <p class="text-neutral-400">Снижаем CPL (стоимость лида), растим общий объем заявок.</p>
                         </div>
@@ -660,8 +663,6 @@
         <div class="container mx-auto px-6 lg:px-12">
             <div class="max-w-5xl mx-auto">
                 <div id="guarantee-block" class="bg-neutral-900 border-2 border-brand/50 rounded-[2.5rem] p-8 md:p-14 flex flex-col md:flex-row items-center gap-10 relative overflow-hidden shadow-[0_0_40px_rgba(222,255,154,0.15)]">
-                    
-                    <!-- Dynamic Shine Animation -->
                     <div id="guarantee-shimmer" class="absolute inset-0 bg-gradient-to-r from-transparent via-brand/10 to-transparent -translate-x-full"></div>
                     
                     <div class="shrink-0 relative z-10">
@@ -672,7 +673,7 @@
                     </div>
                     
                     <div class="text-center md:text-left relative z-10">
-                        <h2 class="text-2xl md:text-4xl font-extrabold mb-4 text-white tracking-tight">
+                        <h2 class="text-2xl md:text-4xl font-extrabold mb-4 text-white tracking-tight text-balance">
                             Железобетонная гарантия в договоре
                         </h2>
                         <p class="text-neutral-300 text-lg md:text-xl leading-relaxed">
@@ -692,10 +693,10 @@
             <div class="glass-card max-w-4xl mx-auto rounded-[2.5rem] p-10 md:p-16 text-center border-brand/20 shadow-2xl relative overflow-hidden">
                 <div class="absolute -top-10 -right-10 w-32 h-32 bg-brand/30 rounded-full blur-2xl"></div>
                 
-                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6">
+                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 text-balance">
                     Устали смотреть, как техника простаивает на складе?
                 </h2>
-                <p class="text-xl text-neutral-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+                <p class="text-xl text-neutral-300 mb-10 max-w-2xl mx-auto leading-relaxed text-balance">
                     Хватит терять прибыль в несезон. Запишитесь на бесплатную консультацию: разберем ваш маркетинг, найдем точки роста и покажем кейсы.
                 </p>
                 
@@ -738,38 +739,43 @@
 
     <div id="policy-modal" class="fixed inset-0 z-[100] hidden flex items-center justify-center px-4 py-6 md:p-0">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm transition-opacity" onclick="closePolicyModal()"></div>
-        
         <div class="relative bg-neutral-900 border border-neutral-800 rounded-3xl w-full max-w-3xl max-h-[85vh] flex flex-col shadow-2xl transform transition-transform scale-95 opacity-0" id="policy-modal-box">
-            
             <div class="flex items-center justify-between p-6 border-b border-white/10 shrink-0">
                 <h3 id="policy-modal-title" class="text-xl md:text-2xl font-bold text-white">Документ</h3>
                 <button onclick="closePolicyModal()" class="w-10 h-10 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-neutral-700 hover:text-brand transition-colors text-neutral-400">
                     <i class="ph-bold ph-x text-xl"></i>
                 </button>
             </div>
-
             <div id="policy-modal-content" class="p-6 md:p-10 overflow-y-auto text-neutral-400 text-sm md:text-base space-y-6 leading-relaxed">
-                <!-- Контент подставляется через JS -->
             </div>
         </div>
     </div>
 
     <script>
-        // Тексты политик
+        function scrollSlider(direction) {
+            const slider = document.getElementById('cases-slider');
+            const card = slider.querySelector('.shrink-0');
+            // Прибавляем gap-6 (24px) к ширине карточки
+            const scrollAmount = card.offsetWidth + 24; 
+            
+            if (direction === 'left') {
+                slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
+
         const policies = {
             privacy: {
                 title: 'Политика конфиденциальности',
                 content: `
                     <h4 class="text-white font-bold text-lg mb-2">1. Общие положения</h4>
                     <p>Настоящая политика конфиденциальности составлена в соответствии с требованиями Федерального закона от 27.07.2006. №152-ФЗ «О персональных данных» и определяет порядок обработки персональных данных и меры по обеспечению безопасности персональных данных, предпринимаемые агентством MotoLead (далее — Оператор).</p>
-                    
                     <h4 class="text-white font-bold text-lg mt-6 mb-2">2. Основные понятия</h4>
                     <p>Веб-сайт — совокупность графических и информационных материалов, а также программ для ЭВМ и баз данных, обеспечивающих их доступность в сети интернет.</p>
                     <p>Пользователь — любой посетитель веб-сайта.</p>
-
                     <h4 class="text-white font-bold text-lg mt-6 mb-2">3. Сбор и использование информации</h4>
                     <p>Оператор может обрабатывать следующие персональные данные Пользователя: Имя; Номер телефона. Также на сайте происходит сбор и обработка обезличенных данных о посетителях (в т.ч. файлов «cookie») с помощью сервисов интернет-статистики (Яндекс Метрика и др.).</p>
-
                     <h4 class="text-white font-bold text-lg mt-6 mb-2">4. Цели обработки</h4>
                     <p>Цель обработки персональных данных Пользователя — информирование Пользователя посредством отправки электронных писем, предоставление доступа к сервисам, информации и/или материалам, содержащимся на веб-сайте, а также оказание консультационных услуг по маркетингу.</p>
                 `
@@ -779,10 +785,8 @@
                 content: `
                     <h4 class="text-white font-bold text-lg mb-2">1. Сбор и обработка данных</h4>
                     <p>Мы бережно относимся к вашим данным. Оставляя заявку на сайте, вы даете согласие на обработку ваших персональных данных (имя, контактный телефон) с целью обратной связи и предоставления коммерческого предложения или аудита.</p>
-
                     <h4 class="text-white font-bold text-lg mt-6 mb-2">2. Защита данных</h4>
                     <p>Мы применяем современные технологии защиты информации от несанкционированного доступа. Ваши данные не передаются третьим лицам, за исключением случаев, прямо предусмотренных действующим законодательством РФ.</p>
-
                     <h4 class="text-white font-bold text-lg mt-6 mb-2">3. Сроки хранения и отзыв согласия</h4>
                     <p>Персональные данные хранятся не дольше, чем этого требуют цели их обработки. Вы можете в любой момент отозвать свое согласие на обработку персональных данных, направив нам соответствующее уведомление.</p>
                 `
@@ -797,10 +801,8 @@
         function openPolicyModal(type) {
             modalTitle.innerHTML = policies[type].title;
             modalContent.innerHTML = policies[type].content;
-            
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
-            
             setTimeout(() => {
                 modalBox.classList.remove('scale-95', 'opacity-0');
                 modalBox.classList.add('scale-100', 'opacity-100');
@@ -810,99 +812,53 @@
         function closePolicyModal() {
             modalBox.classList.remove('scale-100', 'opacity-100');
             modalBox.classList.add('scale-95', 'opacity-0');
-            
             setTimeout(() => {
                 modal.classList.add('hidden');
                 document.body.style.overflow = '';
             }, 200);
         }
 
-        // Логика слайдера
-        document.addEventListener('DOMContentLoaded', () => {
-            const slider = document.getElementById('cases-slider');
-            const btnPrev = document.getElementById('slider-prev');
-            const btnNext = document.getElementById('slider-next');
-
-            if (slider && btnPrev && btnNext) {
-                const scrollAmount = () => slider.clientWidth * 0.8;
-
-                btnNext.addEventListener('click', () => {
-                    slider.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
-                });
-
-                btnPrev.addEventListener('click', () => {
-                    slider.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
-                });
-
-                const updateButtons = () => {
-                    btnPrev.disabled = Math.floor(slider.scrollLeft) <= 0;
-                    // Небольшой запас (5px) из-за особенностей округления в браузерах
-                    btnNext.disabled = Math.ceil(slider.scrollLeft + slider.clientWidth) >= slider.scrollWidth - 5;
-                };
-
-                slider.addEventListener('scroll', updateButtons);
-                window.addEventListener('resize', updateButtons);
-                updateButtons();
-            }
-        });
-
-        // Анимация переливания гарантии (Shimmer)
         document.addEventListener('DOMContentLoaded', () => {
             const guaranteeBlock = document.getElementById('guarantee-block');
             const shimmerEffect = document.getElementById('guarantee-shimmer');
-
             if (guaranteeBlock && shimmerEffect) {
-                const observer = new IntersectionObserver((entries) => {
+                const obs1 = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            shimmerEffect.classList.add('animate-shimmer');
-                        } else {
-                            shimmerEffect.classList.remove('animate-shimmer');
-                        }
+                        if (entry.isIntersecting) shimmerEffect.classList.add('animate-shimmer');
+                        else shimmerEffect.classList.remove('animate-shimmer');
                     });
                 }, { threshold: 0.3 });
-
-                observer.observe(guaranteeBlock);
+                obs1.observe(guaranteeBlock);
             }
-        });
-        
-        // Анимация рамки для блока "Наше мото-агентство"
-        document.addEventListener('DOMContentLoaded', () => {
+            
             const agencyCard = document.getElementById('agency-card');
-
             if (agencyCard) {
-                const observer = new IntersectionObserver((entries) => {
+                const obs2 = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             agencyCard.classList.add('is-visible');
-                            observer.unobserve(agencyCard);
+                            obs2.unobserve(agencyCard);
                         }
                     });
                 }, { threshold: 0.2 });
-
-                observer.observe(agencyCard);
+                obs2.observe(agencyCard);
             }
-        });
 
-        // Анимация шагов (Roadmap)
-        document.addEventListener('DOMContentLoaded', () => {
             const roadmapContainer = document.getElementById('roadmap-container');
             const steps = document.querySelectorAll('.step-item');
-
             if (roadmapContainer && steps.length > 0) {
-                const observer = new IntersectionObserver((entries) => {
+                const obs3 = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
                             steps.forEach(step => {
                                 step.classList.remove('opacity-0', 'translate-y-10');
                                 step.classList.add('opacity-100', 'translate-y-0');
                             });
-                            observer.unobserve(roadmapContainer);
+                            obs3.unobserve(roadmapContainer);
                         }
                     });
                 }, { threshold: 0.2 });
-
-                observer.observe(roadmapContainer);
+                obs3.observe(roadmapContainer);
             }
         });
     </script>
